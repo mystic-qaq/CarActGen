@@ -1,0 +1,580 @@
+{
+  "items": [
+    {
+      "label": "Test1",
+      "shape_id": "car_drivaer_305",
+      "primary_text": "A mid-height articulated car with a long-body body, a long-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A mid-height articulated car with a long-body body, a long-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a long-body silhouette, a mid-height, and a balanced-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.85 units, body height 1.28 units, wheelbase 2.99, track width 1.49, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, mid-height, long-body, long-wheelbase, balanced-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test2",
+      "shape_id": "car_drivaer_7",
+      "primary_text": "A low-profile articulated car with a compact-length body, a short-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A low-profile articulated car with a compact-length body, a short-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a low-profile, and a narrow-track, with the rear wheels placed behind a short-wheelbase.",
+        "A four-wheel articulated car with body length 4.57 units, body height 1.19 units, wheelbase 2.72, track width 1.45, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, low-profile, compact-length, short-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test3",
+      "shape_id": "car_drivaer_328",
+      "primary_text": "A mid-height articulated car with a mid-length body, a long-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A mid-height articulated car with a mid-length body, a long-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a mid-height, and a balanced-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.60 units, body height 1.28 units, wheelbase 2.93, track width 1.55, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, mid-height, mid-length, long-wheelbase, balanced-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test4",
+      "shape_id": "car_drivaer_363",
+      "primary_text": "A tall-roof articulated car with a mid-length body, a short-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a mid-length body, a short-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a tall-roof, and a wide-track, with the rear wheels placed behind a short-wheelbase.",
+        "A four-wheel articulated car with body length 4.63 units, body height 1.32 units, wheelbase 2.71, track width 1.63, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, mid-length, short-wheelbase, wide-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test5",
+      "shape_id": "car_drivaer_299",
+      "primary_text": "A mid-height articulated car with a compact-length body, a short-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A mid-height articulated car with a compact-length body, a short-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a mid-height, and a wide-track, with the rear wheels placed behind a short-wheelbase.",
+        "A four-wheel articulated car with body length 4.47 units, body height 1.30 units, wheelbase 2.70, track width 1.62, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, mid-height, compact-length, short-wheelbase, wide-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test6",
+      "shape_id": "car_drivaer_336",
+      "primary_text": "A tall-roof articulated car with a mid-length body, a long-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a mid-length body, a long-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a tall-roof, and a wide-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.68 units, body height 1.40 units, wheelbase 2.95, track width 1.65, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, mid-length, long-wheelbase, wide-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test7",
+      "shape_id": "car_drivaer_44",
+      "primary_text": "A mid-height articulated car with a long-body body, a long-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A mid-height articulated car with a long-body body, a long-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a long-body silhouette, a mid-height, and a balanced-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.76 units, body height 1.28 units, wheelbase 2.90, track width 1.54, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, mid-height, long-body, long-wheelbase, balanced-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test8",
+      "shape_id": "car_drivaer_98",
+      "primary_text": "A tall-roof articulated car with a mid-length body, a balanced-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a mid-length body, a balanced-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a tall-roof, and a narrow-track, with the rear wheels placed behind a balanced-wheelbase.",
+        "A four-wheel articulated car with body length 4.73 units, body height 1.33 units, wheelbase 2.78, track width 1.37, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, mid-length, balanced-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test9",
+      "shape_id": "car_drivaer_11",
+      "primary_text": "A mid-height articulated car with a compact-length body, a short-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A mid-height articulated car with a compact-length body, a short-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a mid-height, and a wide-track, with the rear wheels placed behind a short-wheelbase.",
+        "A four-wheel articulated car with body length 4.49 units, body height 1.26 units, wheelbase 2.70, track width 1.67, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, mid-height, compact-length, short-wheelbase, wide-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test10",
+      "shape_id": "car_drivaer_112",
+      "primary_text": "A tall-roof articulated car with a mid-length body, a long-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a mid-length body, a long-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a tall-roof, and a narrow-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.62 units, body height 1.36 units, wheelbase 2.96, track width 1.43, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, mid-length, long-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test11",
+      "shape_id": "car_drivaer_125",
+      "primary_text": "A tall-roof articulated car with a mid-length body, a short-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a mid-length body, a short-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a tall-roof, and a balanced-track, with the rear wheels placed behind a short-wheelbase.",
+        "A four-wheel articulated car with body length 4.70 units, body height 1.36 units, wheelbase 2.67, track width 1.56, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, mid-length, short-wheelbase, balanced-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test12",
+      "shape_id": "car_drivaer_126",
+      "primary_text": "A mid-height articulated car with a mid-length body, a balanced-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A mid-height articulated car with a mid-length body, a balanced-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a mid-height, and a narrow-track, with the rear wheels placed behind a balanced-wheelbase.",
+        "A four-wheel articulated car with body length 4.67 units, body height 1.25 units, wheelbase 2.87, track width 1.40, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, mid-height, mid-length, balanced-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test13",
+      "shape_id": "car_drivaer_138",
+      "primary_text": "A tall-roof articulated car with a mid-length body, a balanced-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a mid-length body, a balanced-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a tall-roof, and a wide-track, with the rear wheels placed behind a balanced-wheelbase.",
+        "A four-wheel articulated car with body length 4.65 units, body height 1.37 units, wheelbase 2.80, track width 1.60, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, mid-length, balanced-wheelbase, wide-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test14",
+      "shape_id": "car_drivaer_139",
+      "primary_text": "A tall-roof articulated car with a compact-length body, a short-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a compact-length body, a short-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a tall-roof, and a balanced-track, with the rear wheels placed behind a short-wheelbase.",
+        "A four-wheel articulated car with body length 4.56 units, body height 1.34 units, wheelbase 2.70, track width 1.51, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, compact-length, short-wheelbase, balanced-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test15",
+      "shape_id": "car_drivaer_14",
+      "primary_text": "A tall-roof articulated car with a compact-length body, a balanced-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a compact-length body, a balanced-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a tall-roof, and a wide-track, with the rear wheels placed behind a balanced-wheelbase.",
+        "A four-wheel articulated car with body length 4.52 units, body height 1.34 units, wheelbase 2.85, track width 1.63, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, compact-length, balanced-wheelbase, wide-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test16",
+      "shape_id": "car_drivaer_146",
+      "primary_text": "A low-profile articulated car with a mid-length body, a balanced-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A low-profile articulated car with a mid-length body, a balanced-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a low-profile, and a balanced-track, with the rear wheels placed behind a balanced-wheelbase.",
+        "A four-wheel articulated car with body length 4.73 units, body height 1.20 units, wheelbase 2.79, track width 1.55, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, low-profile, mid-length, balanced-wheelbase, balanced-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test17",
+      "shape_id": "car_drivaer_153",
+      "primary_text": "A mid-height articulated car with a long-body body, a long-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A mid-height articulated car with a long-body body, a long-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a long-body silhouette, a mid-height, and a balanced-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.78 units, body height 1.26 units, wheelbase 3.01, track width 1.49, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, mid-height, long-body, long-wheelbase, balanced-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test18",
+      "shape_id": "car_drivaer_159",
+      "primary_text": "A tall-roof articulated car with a mid-length body, a short-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a mid-length body, a short-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a tall-roof, and a narrow-track, with the rear wheels placed behind a short-wheelbase.",
+        "A four-wheel articulated car with body length 4.64 units, body height 1.32 units, wheelbase 2.76, track width 1.45, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, mid-length, short-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test19",
+      "shape_id": "car_drivaer_179",
+      "primary_text": "A low-profile articulated car with a compact-length body, a short-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A low-profile articulated car with a compact-length body, a short-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a low-profile, and a balanced-track, with the rear wheels placed behind a short-wheelbase.",
+        "A four-wheel articulated car with body length 4.49 units, body height 1.21 units, wheelbase 2.69, track width 1.49, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, low-profile, compact-length, short-wheelbase, balanced-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test20",
+      "shape_id": "car_drivaer_183",
+      "primary_text": "A mid-height articulated car with a mid-length body, a short-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A mid-height articulated car with a mid-length body, a short-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a mid-height, and a narrow-track, with the rear wheels placed behind a short-wheelbase.",
+        "A four-wheel articulated car with body length 4.65 units, body height 1.27 units, wheelbase 2.74, track width 1.37, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, mid-height, mid-length, short-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test21",
+      "shape_id": "car_drivaer_185",
+      "primary_text": "A tall-roof articulated car with a long-body body, a long-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a long-body body, a long-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a long-body silhouette, a tall-roof, and a balanced-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.86 units, body height 1.32 units, wheelbase 3.02, track width 1.51, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, long-body, long-wheelbase, balanced-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test22",
+      "shape_id": "car_drivaer_21",
+      "primary_text": "A mid-height articulated car with a long-body body, a long-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A mid-height articulated car with a long-body body, a long-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a long-body silhouette, a mid-height, and a narrow-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.78 units, body height 1.30 units, wheelbase 3.03, track width 1.42, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, mid-height, long-body, long-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test23",
+      "shape_id": "car_drivaer_238",
+      "primary_text": "A tall-roof articulated car with a compact-length body, a balanced-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a compact-length body, a balanced-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a tall-roof, and a balanced-track, with the rear wheels placed behind a balanced-wheelbase.",
+        "A four-wheel articulated car with body length 4.59 units, body height 1.33 units, wheelbase 2.86, track width 1.51, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, compact-length, balanced-wheelbase, balanced-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test24",
+      "shape_id": "car_drivaer_240",
+      "primary_text": "A tall-roof articulated car with a mid-length body, a long-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a mid-length body, a long-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a tall-roof, and a wide-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.70 units, body height 1.36 units, wheelbase 2.96, track width 1.59, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, mid-length, long-wheelbase, wide-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test25",
+      "shape_id": "car_drivaer_241",
+      "primary_text": "A low-profile articulated car with a mid-length body, a long-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A low-profile articulated car with a mid-length body, a long-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a low-profile, and a narrow-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.70 units, body height 1.23 units, wheelbase 3.00, track width 1.42, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, low-profile, mid-length, long-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test26",
+      "shape_id": "car_drivaer_245",
+      "primary_text": "A mid-height articulated car with a compact-length body, a short-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A mid-height articulated car with a compact-length body, a short-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a mid-height, and a wide-track, with the rear wheels placed behind a short-wheelbase.",
+        "A four-wheel articulated car with body length 4.46 units, body height 1.26 units, wheelbase 2.65, track width 1.63, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, mid-height, compact-length, short-wheelbase, wide-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test27",
+      "shape_id": "car_drivaer_25",
+      "primary_text": "A low-profile articulated car with a long-body body, a long-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A low-profile articulated car with a long-body body, a long-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a long-body silhouette, a low-profile, and a wide-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.94 units, body height 1.24 units, wheelbase 3.01, track width 1.64, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, low-profile, long-body, long-wheelbase, wide-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test28",
+      "shape_id": "car_drivaer_257",
+      "primary_text": "A low-profile articulated car with a long-body body, a long-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A low-profile articulated car with a long-body body, a long-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a long-body silhouette, a low-profile, and a narrow-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.85 units, body height 1.24 units, wheelbase 2.97, track width 1.41, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, low-profile, long-body, long-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test29",
+      "shape_id": "car_drivaer_272",
+      "primary_text": "A tall-roof articulated car with a long-body body, a long-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a long-body body, a long-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a long-body silhouette, a tall-roof, and a wide-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.76 units, body height 1.36 units, wheelbase 2.95, track width 1.63, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, long-body, long-wheelbase, wide-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test30",
+      "shape_id": "car_drivaer_332",
+      "primary_text": "A tall-roof articulated car with a long-body body, a balanced-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a long-body body, a balanced-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a long-body silhouette, a tall-roof, and a narrow-track, with the rear wheels placed behind a balanced-wheelbase.",
+        "A four-wheel articulated car with body length 4.77 units, body height 1.34 units, wheelbase 2.90, track width 1.44, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, long-body, balanced-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test31",
+      "shape_id": "car_drivaer_346",
+      "primary_text": "A low-profile articulated car with a compact-length body, a balanced-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A low-profile articulated car with a compact-length body, a balanced-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a low-profile, and a narrow-track, with the rear wheels placed behind a balanced-wheelbase.",
+        "A four-wheel articulated car with body length 4.58 units, body height 1.24 units, wheelbase 2.81, track width 1.41, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, low-profile, compact-length, balanced-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test32",
+      "shape_id": "car_drivaer_354",
+      "primary_text": "A low-profile articulated car with a mid-length body, a balanced-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A low-profile articulated car with a mid-length body, a balanced-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a low-profile, and a wide-track, with the rear wheels placed behind a balanced-wheelbase.",
+        "A four-wheel articulated car with body length 4.66 units, body height 1.25 units, wheelbase 2.78, track width 1.61, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, low-profile, mid-length, balanced-wheelbase, wide-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test33",
+      "shape_id": "car_drivaer_356",
+      "primary_text": "A mid-height articulated car with a compact-length body, a balanced-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A mid-height articulated car with a compact-length body, a balanced-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a mid-height, and a narrow-track, with the rear wheels placed behind a balanced-wheelbase.",
+        "A four-wheel articulated car with body length 4.53 units, body height 1.30 units, wheelbase 2.88, track width 1.37, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, mid-height, compact-length, balanced-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test34",
+      "shape_id": "car_drivaer_373",
+      "primary_text": "A tall-roof articulated car with a compact-length body, a short-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a compact-length body, a short-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a tall-roof, and a narrow-track, with the rear wheels placed behind a short-wheelbase.",
+        "A four-wheel articulated car with body length 4.31 units, body height 1.34 units, wheelbase 2.64, track width 1.38, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, compact-length, short-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test35",
+      "shape_id": "car_drivaer_401",
+      "primary_text": "A low-profile articulated car with a long-body body, a long-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A low-profile articulated car with a long-body body, a long-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a long-body silhouette, a low-profile, and a wide-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.85 units, body height 1.24 units, wheelbase 2.99, track width 1.63, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, low-profile, long-body, long-wheelbase, wide-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test36",
+      "shape_id": "car_drivaer_421",
+      "primary_text": "A tall-roof articulated car with a mid-length body, a long-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a mid-length body, a long-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a tall-roof, and a balanced-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.72 units, body height 1.35 units, wheelbase 3.03, track width 1.49, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, mid-length, long-wheelbase, balanced-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test37",
+      "shape_id": "car_drivaer_422",
+      "primary_text": "A mid-height articulated car with a long-body body, a balanced-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A mid-height articulated car with a long-body body, a balanced-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a long-body silhouette, a mid-height, and a wide-track, with the rear wheels placed behind a balanced-wheelbase.",
+        "A four-wheel articulated car with body length 4.74 units, body height 1.29 units, wheelbase 2.83, track width 1.65, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, mid-height, long-body, balanced-wheelbase, wide-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test38",
+      "shape_id": "car_drivaer_427",
+      "primary_text": "A tall-roof articulated car with a compact-length body, a short-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a compact-length body, a short-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a tall-roof, and a narrow-track, with the rear wheels placed behind a short-wheelbase.",
+        "A four-wheel articulated car with body length 4.55 units, body height 1.32 units, wheelbase 2.71, track width 1.46, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, compact-length, short-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test39",
+      "shape_id": "car_drivaer_440",
+      "primary_text": "A mid-height articulated car with a long-body body, a long-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A mid-height articulated car with a long-body body, a long-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a long-body silhouette, a mid-height, and a narrow-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.77 units, body height 1.26 units, wheelbase 2.94, track width 1.45, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, mid-height, long-body, long-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test40",
+      "shape_id": "car_drivaer_45",
+      "primary_text": "A tall-roof articulated car with a mid-length body, a short-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a mid-length body, a short-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a tall-roof, and a balanced-track, with the rear wheels placed behind a short-wheelbase.",
+        "A four-wheel articulated car with body length 4.62 units, body height 1.32 units, wheelbase 2.65, track width 1.49, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, mid-length, short-wheelbase, balanced-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test41",
+      "shape_id": "car_drivaer_465",
+      "primary_text": "A mid-height articulated car with a long-body body, a long-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A mid-height articulated car with a long-body body, a long-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a long-body silhouette, a mid-height, and a wide-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.77 units, body height 1.28 units, wheelbase 2.99, track width 1.64, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, mid-height, long-body, long-wheelbase, wide-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test42",
+      "shape_id": "car_drivaer_466",
+      "primary_text": "A tall-roof articulated car with a compact-length body, a balanced-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a compact-length body, a balanced-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a tall-roof, and a balanced-track, with the rear wheels placed behind a balanced-wheelbase.",
+        "A four-wheel articulated car with body length 4.57 units, body height 1.38 units, wheelbase 2.79, track width 1.48, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, compact-length, balanced-wheelbase, balanced-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test43",
+      "shape_id": "car_drivaer_49",
+      "primary_text": "A tall-roof articulated car with a mid-length body, a long-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a mid-length body, a long-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a mid-length silhouette, a tall-roof, and a balanced-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.70 units, body height 1.36 units, wheelbase 2.99, track width 1.57, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, mid-length, long-wheelbase, balanced-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test44",
+      "shape_id": "car_drivaer_495",
+      "primary_text": "A tall-roof articulated car with a compact-length body, a short-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A tall-roof articulated car with a compact-length body, a short-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a tall-roof, and a wide-track, with the rear wheels placed behind a short-wheelbase.",
+        "A four-wheel articulated car with body length 4.42 units, body height 1.34 units, wheelbase 2.76, track width 1.68, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, tall-roof, compact-length, short-wheelbase, wide-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test45",
+      "shape_id": "car_drivaer_60",
+      "primary_text": "A mid-height articulated car with a long-body body, a long-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A mid-height articulated car with a long-body body, a long-wheelbase, and a wide-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a long-body silhouette, a mid-height, and a wide-track, with the rear wheels placed behind a long-wheelbase.",
+        "A four-wheel articulated car with body length 4.91 units, body height 1.27 units, wheelbase 2.92, track width 1.59, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, mid-height, long-body, long-wheelbase, wide-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test46",
+      "shape_id": "car_drivaer_61",
+      "primary_text": "A mid-height articulated car with a compact-length body, a short-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A mid-height articulated car with a compact-length body, a short-wheelbase, and a balanced-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a mid-height, and a balanced-track, with the rear wheels placed behind a short-wheelbase.",
+        "A four-wheel articulated car with body length 4.55 units, body height 1.28 units, wheelbase 2.67, track width 1.54, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, mid-height, compact-length, short-wheelbase, balanced-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test47",
+      "shape_id": "car_drivaer_71",
+      "primary_text": "A low-profile articulated car with a compact-length body, a short-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A low-profile articulated car with a compact-length body, a short-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a low-profile, and a narrow-track, with the rear wheels placed behind a short-wheelbase.",
+        "A four-wheel articulated car with body length 4.49 units, body height 1.21 units, wheelbase 2.73, track width 1.46, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, low-profile, compact-length, short-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    },
+    {
+      "label": "Test48",
+      "shape_id": "car_drivaer_82",
+      "primary_text": "A low-profile articulated car with a compact-length body, a balanced-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+      "texts": [
+        "A low-profile articulated car with a compact-length body, a balanced-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.",
+        "This articulated vehicle has one body shell and four wheels. It shows a compact-length silhouette, a low-profile, and a narrow-track, with the rear wheels placed behind a balanced-wheelbase.",
+        "A four-wheel articulated car with body length 4.57 units, body height 1.22 units, wheelbase 2.79, track width 1.39, and wheel radius about 0.32 units.",
+        "Keywords: articulated car, single body shell, four revolute wheels, low-profile, compact-length, balanced-wheelbase, narrow-track, symmetric wheel layout.",
+        "An articulated car with one body shell and four revolute wheel parts."
+      ]
+    }
+  ]
+}

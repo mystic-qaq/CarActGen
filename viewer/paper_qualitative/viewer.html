@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clean Fair Qualitative Viewer</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f6f8;
+      --ink: #18212b;
+      --muted: #657386;
+      --panel: #ffffff;
+      --line: rgba(24, 33, 43, 0.16);
+      --accent: #176f7a;
+      --error: #a63832;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .toolbar {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    select,
+    button,
+    input[type="range"] {
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    select {
+      min-width: 190px;
+      padding: 0 8px;
+    }
+
+    #methodSelect {
+      min-width: 280px;
+    }
+
+    button {
+      min-width: 38px;
+      padding: 0 11px;
+      cursor: pointer;
+    }
+
+    button.active {
+      border-color: rgba(23, 111, 122, 0.46);
+      background: rgba(23, 111, 122, 0.10);
+      color: var(--accent);
+    }
+
+    .range-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    input[type="range"] {
+      width: 104px;
+      accent-color: var(--accent);
+    }
+
+    .status {
+      flex: 1 1 auto;
+      min-width: 140px;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 13px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .status.error { color: var(--error); }
+
+    .workspace {
+      height: calc(100vh - 58px);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      min-height: 0;
+    }
+
+    .stage {
+      min-width: 0;
+      min-height: 0;
+      position: relative;
+      background: #f5f6f8;
+    }
+
+    #viewerCanvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .side {
+      min-width: 0;
+      min-height: 0;
+      overflow: auto;
+      border-left: 1px solid var(--line);
+      background: var(--panel);
+      padding: 14px;
+    }
+
+    .panel-title {
+      margin: 0 0 10px;
+      font-size: 13px;
+      font-weight: 650;
+      color: var(--ink);
+    }
+
+    .sketch {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      object-fit: contain;
+      padding: 12px;
+      display: block;
+    }
+
+    .prompt {
+      margin: 0 0 14px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fafbfc;
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .meta {
+      margin-top: 14px;
+      display: grid;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .meta-row {
+      display: grid;
+      grid-template-columns: 82px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+    }
+
+    .meta-key {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .meta-value {
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 900px) {
+      body { overflow: auto; }
+
+      .toolbar {
+        height: auto;
+        flex-wrap: wrap;
+      }
+
+      .workspace {
+        height: auto;
+        grid-template-columns: 1fr;
+      }
+
+      .stage {
+        height: 68vh;
+      }
+
+      .side {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+    }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="toolbar">
+    <label for="shapeSelect">Shape</label>
+    <select id="shapeSelect"></select>
+    <label for="methodSelect">Method</label>
+    <select id="methodSelect"></select>
+    <label for="assemblySelect">Assembly</label>
+    <select id="assemblySelect"></select>
+    <button id="playButton" class="active" title="Play or pause wheel rotation">Pause</button>
+    <button id="resetButton" title="Reset camera">Reset</button>
+    <button id="wireButton" title="Toggle wireframe">Wire</button>
+    <button id="boxButton" title="Toggle target boxes">Boxes</button>
+    <div class="range-wrap">
+      <span>zoom</span>
+      <input id="zoomRange" type="range" min="0.70" max="1.55" step="0.01" value="1.00">
+      <span id="zoomValue">1.00</span>
+    </div>
+    <div id="status" class="status">Loading</div>
+  </div>
+
+  <main class="workspace">
+    <section class="stage">
+      <canvas id="viewerCanvas"></canvas>
+    </section>
+    <aside class="side">
+      <h2 class="panel-title">Input sketch</h2>
+      <img id="sketchImage" class="sketch" alt="Input sketch">
+      <h2 class="panel-title" style="margin-top: 14px;">Text condition</h2>
+      <p id="textPrompt" class="prompt">Loading text</p>
+      <div class="meta">
+        <div class="meta-row">
+          <div class="meta-key">Shape</div>
+          <div id="shapeMeta" class="meta-value"></div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-key">Method</div>
+          <div id="methodMeta" class="meta-value"></div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-key">Checkpoint</div>
+          <div id="checkpointMeta" class="meta-value"></div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-key">Assembly</div>
+          <div id="assemblyMeta" class="meta-value"></div>
+        </div>
+        <div class="meta-row">
+          <div class="meta-key">Anchor err.</div>
+          <div id="anchorErrorMeta" class="meta-value"></div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+    import { PLYLoader } from "three/addons/loaders/PLYLoader.js";
+
+    const SHAPES = [
+      "car_drivaer_305", "car_drivaer_7", "car_drivaer_328", "car_drivaer_363",
+      "car_drivaer_299", "car_drivaer_336", "car_drivaer_44", "car_drivaer_98",
+      "car_drivaer_11", "car_drivaer_112", "car_drivaer_125", "car_drivaer_126",
+      "car_drivaer_138", "car_drivaer_139", "car_drivaer_14", "car_drivaer_146",
+      "car_drivaer_153", "car_drivaer_159", "car_drivaer_179", "car_drivaer_183",
+      "car_drivaer_185", "car_drivaer_21", "car_drivaer_238", "car_drivaer_240",
+      "car_drivaer_241", "car_drivaer_245", "car_drivaer_25", "car_drivaer_257",
+      "car_drivaer_272", "car_drivaer_332", "car_drivaer_346", "car_drivaer_354",
+      "car_drivaer_356", "car_drivaer_373", "car_drivaer_401", "car_drivaer_421",
+      "car_drivaer_422", "car_drivaer_427", "car_drivaer_440", "car_drivaer_45",
+      "car_drivaer_465", "car_drivaer_466", "car_drivaer_49", "car_drivaer_495",
+      "car_drivaer_60", "car_drivaer_61", "car_drivaer_71", "car_drivaer_82"
+    ];
+
+    const STRUCTURE_BASE = "../fair_function_aware_partlocal/eval_clean_partlocal/samples/partlocal_text_image_cfg1.0";
+    const ANCHOR_URL = "learned_anchors.json";
+    const TEST_META_URL = "test_metadata.json";
+
+    const METHODS = [
+      {
+        id: "artformer_zero",
+        label: "Original ArtFormer, zero z",
+        checkpoint: "clean train-only, epoch 419",
+        base: "../fair_original_artformer_full/eval_clean_continue_epoch0419_trainonly_classmean/samples/artformer_zero_z_ddim80"
+      },
+      {
+        id: "artformer_class_mean",
+        label: "Original ArtFormer, class-mean z",
+        checkpoint: "clean train-only, epoch 419",
+        base: "../fair_original_artformer_full/eval_clean_continue_epoch0419_trainonly_classmean/samples/artformer_class_mean_z_ddim80"
+      },
+      {
+        id: "partlocal_text",
+        label: "PartLocal, text, cfg 1.2",
+        checkpoint: "clean train-only, epoch 599",
+        base: "../fair_function_aware_partlocal/eval_clean_partlocal/samples/partlocal_text_cfg1.2"
+      },
+      {
+        id: "partlocal_image",
+        label: "PartLocal, image, cfg 1.2",
+        checkpoint: "clean train-only, epoch 599",
+        base: "../fair_function_aware_partlocal/eval_clean_partlocal/samples/partlocal_image_cfg1.2"
+      },
+      {
+        id: "partlocal_text_image_cfg10",
+        label: "PartLocal, text + image, cfg 1.0",
+        checkpoint: "clean train-only, epoch 599",
+        base: "../fair_function_aware_partlocal/eval_clean_partlocal/samples/partlocal_text_image_cfg1.0"
+      },
+      {
+        id: "partlocal_text_image_cfg12",
+        label: "PartLocal, text + image, cfg 1.2",
+        checkpoint: "clean train-only, epoch 599",
+        base: "../fair_function_aware_partlocal/eval_clean_partlocal/samples/partlocal_text_image_cfg1.2"
+      }
+    ];
+
+    const PART_FILES = {
+      body_shell: "01_body_shell.ply",
+      wheel_front_left: "02_wheel_front_left.ply",
+      wheel_front_right: "03_wheel_front_right.ply",
+      wheel_rear_left: "04_wheel_rear_left.ply",
+      wheel_rear_right: "05_wheel_rear_right.ply"
+    };
+
+    const PART_COLORS = {
+      body_shell: 0x4677a9,
+      wheel_front_left: 0xe3922f,
+      wheel_front_right: 0xd95a54,
+      wheel_rear_left: 0x66aaa5,
+      wheel_rear_right: 0x65a454
+    };
+
+    const WHEEL_ORDER = [
+      "wheel_front_left",
+      "wheel_front_right",
+      "wheel_rear_left",
+      "wheel_rear_right"
+    ];
+
+    const ASSEMBLIES = [
+      {
+        id: "source_annotated",
+        label: "Source annotated anchors",
+        shortLabel: "source/reference"
+      },
+      {
+        id: "train_mean_template",
+        label: "Train-mean template",
+        shortLabel: "train-mean template"
+      },
+      {
+        id: "bbox_mlp",
+        label: "BBox MLP anchors",
+        shortLabel: "BBox MLP"
+      },
+      {
+        id: "pointnet_anchor",
+        label: "Learned PointNet anchors",
+        shortLabel: "learned PointNet"
+      }
+    ];
+
+    const canvas = document.querySelector("#viewerCanvas");
+    const shapeSelect = document.querySelector("#shapeSelect");
+    const methodSelect = document.querySelector("#methodSelect");
+    const assemblySelect = document.querySelector("#assemblySelect");
+    const playButton = document.querySelector("#playButton");
+    const resetButton = document.querySelector("#resetButton");
+    const wireButton = document.querySelector("#wireButton");
+    const boxButton = document.querySelector("#boxButton");
+    const zoomRange = document.querySelector("#zoomRange");
+    const zoomValue = document.querySelector("#zoomValue");
+    const status = document.querySelector("#status");
+    const sketchImage = document.querySelector("#sketchImage");
+    const textPrompt = document.querySelector("#textPrompt");
+    const shapeMeta = document.querySelector("#shapeMeta");
+    const methodMeta = document.querySelector("#methodMeta");
+    const checkpointMeta = document.querySelector("#checkpointMeta");
+    const assemblyMeta = document.querySelector("#assemblyMeta");
+    const anchorErrorMeta = document.querySelector("#anchorErrorMeta");
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.setClearColor(0xf5f6f8, 1);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.01, 100);
+    const controls = new OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x8996a3, 2.25));
+    const key = new THREE.DirectionalLight(0xffffff, 2.0);
+    key.position.set(4, -5, 5);
+    scene.add(key);
+    const fill = new THREE.DirectionalLight(0xffffff, 0.95);
+    fill.position.set(-4, 4, 3);
+    scene.add(fill);
+
+    const grid = new THREE.GridHelper(6, 24, 0xb9c3cf, 0xd9dee4);
+    grid.rotation.x = Math.PI / 2;
+    grid.position.z = -0.34;
+    scene.add(grid);
+
+    const carRoot = new THREE.Group();
+    scene.add(carRoot);
+
+    const loader = new PLYLoader();
+    const clock = new THREE.Clock();
+    const materials = [];
+    const geometries = [];
+    const wheels = [];
+    const boxes = [];
+    let anchorData = null;
+    let anchorLoadError = null;
+    let testMetadataPromise = Promise.resolve(null);
+    const testMetadata = new Map(SHAPES.map((shape, index) => [
+      shape,
+      { label: `Test${index + 1}`, primary_text: "" }
+    ]));
+    let frame = null;
+    let loadToken = 0;
+    let playing = true;
+    let wireframe = false;
+    let boxesVisible = false;
+    let zoom = Number(zoomRange.value);
+
+    SHAPES.forEach((shape, index) => {
+      const option = document.createElement("option");
+      option.value = shape;
+      option.textContent = `Test${index + 1}`;
+      shapeSelect.appendChild(option);
+    });
+
+    for (const method of METHODS) {
+      const option = document.createElement("option");
+      option.value = method.id;
+      option.textContent = method.label;
+      methodSelect.appendChild(option);
+    }
+
+    for (const assembly of ASSEMBLIES) {
+      const option = document.createElement("option");
+      option.value = assembly.id;
+      option.textContent = assembly.label;
+      assemblySelect.appendChild(option);
+    }
+
+    shapeSelect.value = SHAPES[0];
+    methodSelect.value = "partlocal_text_image_cfg10";
+    assemblySelect.value = "pointnet_anchor";
+
+    function currentMethod() {
+      return METHODS.find((method) => method.id === methodSelect.value) || METHODS[0];
+    }
+
+    function currentAssembly() {
+      return ASSEMBLIES.find((assembly) => assembly.id === assemblySelect.value) || ASSEMBLIES[0];
+    }
+
+    function currentTestItem(shape) {
+      return testMetadata.get(shape) || { label: shape, primary_text: "" };
+    }
+
+    function refreshShapeLabels() {
+      for (const option of shapeSelect.options) {
+        option.textContent = currentTestItem(option.value).label;
+      }
+    }
+
+    function setStatus(text, isError = false) {
+      status.textContent = text;
+      status.classList.toggle("error", isError);
+    }
+
+    function structureUrl(shape) {
+      return `${STRUCTURE_BASE}/${shape}/structure.json`;
+    }
+
+    function sketchUrl(shape) {
+      return `sketches/${shape}.png`;
+    }
+
+    function meshUrl(method, shape, partName) {
+      return `${method.base}/${shape}/generated_part_mesh/${PART_FILES[partName]}`;
+    }
+
+    function loadJson(url) {
+      return fetch(url).then((response) => {
+        if (!response.ok) throw new Error(`${url} ${response.status}`);
+        return response.json();
+      });
+    }
+
+    const anchorDataPromise = loadJson(ANCHOR_URL)
+      .then((data) => {
+        anchorData = data;
+        return data;
+      })
+      .catch((error) => {
+        anchorLoadError = error;
+        console.error(error);
+        return null;
+      });
+
+    testMetadataPromise = loadJson(TEST_META_URL)
+      .then((data) => {
+        for (const item of data.items || []) {
+          testMetadata.set(item.shape_id, item);
+        }
+        refreshShapeLabels();
+        return data;
+      })
+      .catch((error) => {
+        console.error(error);
+        return null;
+      });
+
+    function loadPly(url) {
+      return new Promise((resolve, reject) => {
+        loader.load(url, resolve, undefined, reject);
+      });
+    }
+
+    function anchorRecordFor(shape) {
+      return anchorData?.anchors?.[shape] || null;
+    }
+
+    function sourceAnchorFromStructure(structure, partName) {
+      const part = structure.parts.find((item) => item.name === partName);
+      return part?.joint_data_origin || [0, 0, 0];
+    }
+
+    function anchorForWheel(structure, shape, partName, assemblyId) {
+      const record = anchorRecordFor(shape);
+      const wheelIndex = WHEEL_ORDER.indexOf(partName);
+      if (record && wheelIndex >= 0 && record[assemblyId]) {
+        return record[assemblyId][wheelIndex];
+      }
+      return sourceAnchorFromStructure(structure, partName);
+    }
+
+    function selectedPartForAssembly(structure, shape, part) {
+      if (!part.name.startsWith("wheel_")) return part;
+      return {
+        ...part,
+        joint_data_origin: anchorForWheel(structure, shape, part.name, assemblySelect.value)
+      };
+    }
+
+    function targetBox(part) {
+      const center = new THREE.Vector3().fromArray(part.bbx[0]);
+      const size = new THREE.Vector3().fromArray(part.bbx[1]);
+      const half = size.clone().multiplyScalar(0.5);
+      return {
+        center,
+        size,
+        min: center.clone().sub(half),
+        max: center.clone().add(half)
+      };
+    }
+
+    function fitGeometryToPart(geometry, part, relativeToJoint) {
+      geometry.computeBoundingBox();
+      const sourceBox = geometry.boundingBox;
+      const sourceSize = new THREE.Vector3();
+      sourceBox.getSize(sourceSize);
+
+      const box = targetBox(part);
+      const sourceMin = sourceBox.min;
+      const origin = new THREE.Vector3().fromArray(part.joint_data_origin);
+      const position = geometry.attributes.position;
+      const vertex = new THREE.Vector3();
+
+      for (let i = 0; i < position.count; i += 1) {
+        vertex.fromBufferAttribute(position, i);
+        const x = box.min.x + ((vertex.x - sourceMin.x) / Math.max(sourceSize.x, 1e-6)) * box.size.x;
+        const y = box.min.y + ((vertex.y - sourceMin.y) / Math.max(sourceSize.y, 1e-6)) * box.size.y;
+        const z = box.min.z + ((vertex.z - sourceMin.z) / Math.max(sourceSize.z, 1e-6)) * box.size.z;
+        if (relativeToJoint) {
+          position.setXYZ(i, x - origin.x, y - origin.y, z - origin.z);
+        } else {
+          position.setXYZ(i, x, y, z);
+        }
+      }
+
+      position.needsUpdate = true;
+      geometry.computeVertexNormals();
+      geometry.computeBoundingBox();
+      geometry.computeBoundingSphere();
+      return box;
+    }
+
+    function clearCar() {
+      carRoot.clear();
+      for (const geometry of geometries) geometry.dispose();
+      for (const material of materials) material.dispose();
+      geometries.length = 0;
+      materials.length = 0;
+      wheels.length = 0;
+      boxes.length = 0;
+    }
+
+    function addBoxHelper(box) {
+      const helper = new THREE.Box3Helper(new THREE.Box3(box.min, box.max), 0x253847);
+      helper.material.transparent = true;
+      helper.material.opacity = 0.28;
+      helper.visible = boxesVisible;
+      carRoot.add(helper);
+      boxes.push(helper);
+    }
+
+    function addAnchorMarker(originArray, color, radius, opacity) {
+      const origin = new THREE.Vector3().fromArray(originArray);
+      const sphereGeometry = new THREE.SphereGeometry(radius, 18, 12);
+      const sphereMaterial = new THREE.MeshBasicMaterial({
+        color,
+        transparent: opacity < 1,
+        opacity,
+        depthTest: false
+      });
+      const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+      sphere.position.copy(origin);
+      sphere.renderOrder = 20;
+      carRoot.add(sphere);
+      geometries.push(sphereGeometry);
+      materials.push(sphereMaterial);
+
+      const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+        origin.clone().add(new THREE.Vector3(0, -0.22, 0)),
+        origin.clone().add(new THREE.Vector3(0, 0.22, 0))
+      ]);
+      const lineMaterial = new THREE.LineBasicMaterial({
+        color,
+        transparent: opacity < 1,
+        opacity,
+        depthTest: false
+      });
+      const line = new THREE.Line(lineGeometry, lineMaterial);
+      line.renderOrder = 21;
+      carRoot.add(line);
+      geometries.push(lineGeometry);
+      materials.push(lineMaterial);
+    }
+
+    function addAnchorMarkers(structure, shape) {
+      const assembly = currentAssembly();
+      const record = anchorRecordFor(shape);
+      for (const partName of WHEEL_ORDER) {
+        const source = anchorForWheel(structure, shape, partName, "source_annotated");
+        const selected = anchorForWheel(structure, shape, partName, assembly.id);
+        if (assembly.id !== "source_annotated") {
+          addAnchorMarker(source, 0x6b7280, 0.024, 0.50);
+        }
+        addAnchorMarker(selected, assembly.id === "pointnet_anchor" ? 0x111827 : 0x176f7a, 0.042, 0.96);
+      }
+
+      const err = record?.mean_l2_to_source?.[assembly.id];
+      assemblyMeta.textContent = assembly.shortLabel;
+      anchorErrorMeta.textContent = Number.isFinite(err) ? `${err.toFixed(5)} mean L2 to source` : "not available";
+    }
+
+    function computeFrame(structure) {
+      const allMin = new THREE.Vector3(Infinity, Infinity, Infinity);
+      const allMax = new THREE.Vector3(-Infinity, -Infinity, -Infinity);
+      for (const part of structure.parts) {
+        const box = targetBox(part);
+        allMin.min(box.min);
+        allMax.max(box.max);
+      }
+      const center = allMin.clone().add(allMax).multiplyScalar(0.5);
+      const size = allMax.clone().sub(allMin);
+      const radius = Math.max(size.x, size.y, size.z) * 0.74;
+      frame = { center, radius };
+      grid.position.x = center.x;
+      grid.position.y = center.y;
+      grid.scale.setScalar(Math.max(1, radius / 1.25));
+    }
+
+    function resetCamera() {
+      if (!frame) return;
+      const { center, radius } = frame;
+      const scaled = radius * zoom;
+      camera.position.set(center.x + scaled * 1.95, center.y - scaled * 2.35, center.z + scaled * 1.15);
+      camera.near = 0.01;
+      camera.far = Math.max(40, scaled * 14);
+      camera.updateProjectionMatrix();
+      controls.target.copy(center);
+      controls.update();
+    }
+
+    async function loadCurrent() {
+      const token = ++loadToken;
+      const shape = shapeSelect.value;
+      const method = currentMethod();
+      const assembly = currentAssembly();
+      const testItem = currentTestItem(shape);
+      setStatus(`Loading ${testItem.label}`);
+      clearCar();
+
+      sketchImage.src = sketchUrl(shape);
+      shapeMeta.textContent = testItem.label;
+      textPrompt.textContent = testItem.primary_text || "Text condition unavailable";
+      methodMeta.textContent = method.label;
+      checkpointMeta.textContent = method.checkpoint;
+      assemblyMeta.textContent = assembly.shortLabel;
+      anchorErrorMeta.textContent = "loading";
+
+      try {
+        const [structure] = await Promise.all([loadJson(structureUrl(shape)), anchorDataPromise, testMetadataPromise]);
+        const loadedTestItem = currentTestItem(shape);
+        shapeMeta.textContent = loadedTestItem.label;
+        textPrompt.textContent = loadedTestItem.primary_text || "Text condition unavailable";
+        if (anchorLoadError) {
+          anchorErrorMeta.textContent = "anchor file unavailable";
+        }
+        if (token !== loadToken) return;
+        computeFrame(structure);
+
+        for (const part of structure.parts) {
+          if (!PART_FILES[part.name]) continue;
+          const geometry = await loadPly(meshUrl(method, shape, part.name));
+          if (token !== loadToken) {
+            geometry.dispose();
+            return;
+          }
+
+          const partForAssembly = selectedPartForAssembly(structure, shape, part);
+          const isWheel = partForAssembly.name.startsWith("wheel_");
+          const box = fitGeometryToPart(geometry, partForAssembly, isWheel);
+          const material = new THREE.MeshStandardMaterial({
+            color: PART_COLORS[part.name] ?? 0x8996a3,
+            roughness: 0.64,
+            metalness: 0.03,
+            wireframe
+          });
+          const mesh = new THREE.Mesh(geometry, material);
+          mesh.name = part.name;
+
+          geometries.push(geometry);
+          materials.push(material);
+
+          if (isWheel) {
+            const pivot = new THREE.Group();
+            pivot.position.fromArray(partForAssembly.joint_data_origin);
+            pivot.add(mesh);
+            carRoot.add(pivot);
+            wheels.push({
+              pivot,
+              axis: new THREE.Vector3().fromArray(partForAssembly.joint_data_direction).normalize()
+            });
+          } else {
+            carRoot.add(mesh);
+          }
+          addBoxHelper(box);
+        }
+
+        addAnchorMarkers(structure, shape);
+        resetCamera();
+        setStatus(`${loadedTestItem.label} loaded (${assembly.shortLabel})`);
+      } catch (error) {
+        console.error(error);
+        setStatus(error.message || String(error), true);
+      }
+    }
+
+    function resizeRenderer() {
+      const rect = canvas.getBoundingClientRect();
+      const width = Math.max(1, Math.floor(rect.width));
+      const height = Math.max(1, Math.floor(rect.height));
+      const pixelRatio = Math.min(window.devicePixelRatio, 2);
+      const needResize = canvas.width !== Math.floor(width * pixelRatio) ||
+        canvas.height !== Math.floor(height * pixelRatio);
+      if (needResize) {
+        renderer.setPixelRatio(pixelRatio);
+        renderer.setSize(width, height, false);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+      }
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const dt = clock.getDelta();
+      resizeRenderer();
+      controls.update();
+      if (playing) {
+        const spin = dt * Math.PI * 1.65;
+        for (const wheel of wheels) wheel.pivot.rotateOnAxis(wheel.axis, spin);
+      }
+      renderer.render(scene, camera);
+    }
+
+    shapeSelect.addEventListener("change", loadCurrent);
+    methodSelect.addEventListener("change", loadCurrent);
+    assemblySelect.addEventListener("change", loadCurrent);
+    playButton.addEventListener("click", () => {
+      playing = !playing;
+      playButton.textContent = playing ? "Pause" : "Play";
+      playButton.classList.toggle("active", playing);
+    });
+    resetButton.addEventListener("click", resetCamera);
+    wireButton.addEventListener("click", () => {
+      wireframe = !wireframe;
+      wireButton.classList.toggle("active", wireframe);
+      for (const material of materials) material.wireframe = wireframe;
+    });
+    boxButton.addEventListener("click", () => {
+      boxesVisible = !boxesVisible;
+      boxButton.classList.toggle("active", boxesVisible);
+      for (const box of boxes) box.visible = boxesVisible;
+    });
+    zoomRange.addEventListener("input", () => {
+      zoom = Number(zoomRange.value);
+      zoomValue.textContent = zoom.toFixed(2);
+      resetCamera();
+    });
+    window.addEventListener("resize", resetCamera);
+
+    loadCurrent();
+    animate();
+  </script>
+</body>
+</html>

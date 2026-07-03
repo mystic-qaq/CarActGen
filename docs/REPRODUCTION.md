@@ -121,7 +121,7 @@ Use `pointnet_anchor` as the learned assembly module in qualitative results.
 
 ## Qualitative Viewer
 
-For a single generated sample, use the reusable template in
+For a single generated sample, use the lightweight reusable template in
 [`viewer/sample_viewer.html`](../viewer/sample_viewer.html):
 
 ```bash
@@ -143,7 +143,8 @@ Then open `http://localhost:8000/viewer.html`. If the run is on a remote
 server, forward the port with `ssh -L 8000:localhost:8000 user@server`.
 
 The paper comparison viewer is generated outside git from lightweight JSON
-metadata and generated meshes. It should show anonymized test labels, the text
-condition, input sketch, generated parts, template assembly, and learned
-PointNet anchor assembly. Generated viewer assets should not be committed to
-the release branch.
+metadata and generated meshes. The reusable template and small metadata assets
+are included under [`viewer/paper_qualitative`](../viewer/paper_qualitative). It
+shows anonymized test labels, the text condition, real held-out sketch images,
+generated parts, template assembly, and learned PointNet anchor assembly.
+Generated mesh outputs should not be committed to the release branch.

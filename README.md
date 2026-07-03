@@ -23,8 +23,9 @@ are:
   training, latent extraction, monitored stopping, and held-out test evaluation.
 - `experiments/paper_train_wheel_anchor_predictor.py`: learned wheel-anchor
   assembly predictors for replacing fixed template assembly.
-- `experiments/sample_adaptive_object_multimodal_diffusion.py` and
-  `viewer/sample_viewer.html`: sampling and interactive qualitative inspection.
+- `experiments/sample_adaptive_object_multimodal_diffusion.py`,
+  `viewer/sample_viewer.html`, and `viewer/paper_qualitative`: single-sample
+  and paper-comparison qualitative viewers.
 - `data/caractgen_metadata`: clean object split, text conditions, source
   metadata, and manifest files needed to reproduce the reported protocol.
 
@@ -40,7 +41,8 @@ train-only path documented below.
 - CarActGen function-aware VAE and PartLocal diffusion code.
 - Clean train/validation/test scripts for the paper experiments.
 - Learned wheel-anchor predictors and released small predictor checkpoints.
-- A reusable single-sample Three.js viewer template.
+- A reusable single-sample Three.js viewer and the paper qualitative comparison
+  viewer template.
 - Documentation for data, checkpoints, training, evaluation, and visualization.
 
 Generated datasets, checkpoints, wandb runs, rendered meshes, paper scratch
@@ -103,7 +105,7 @@ For the learned assembly ablation:
 bash experiments/paper_run_wheel_anchor_predictors.sh
 ```
 
-To generate one qualitative sample and open the interactive viewer:
+To generate one qualitative sample and open the lightweight interactive viewer:
 
 ```bash
 export CARACTGEN_VIEWER_TEMPLATE=$PWD/viewer/sample_viewer.html
@@ -122,6 +124,11 @@ python -m http.server --directory "$SAMPLE_DIR" 8000
 
 Then open `http://localhost:8000/viewer.html`. When running on a remote server,
 forward the port with `ssh -L 8000:localhost:8000 user@server`.
+
+The paper comparison viewer, matching the local 8031-style layout, is under
+[`viewer/paper_qualitative`](viewer/paper_qualitative). It expects the reproduced
+paper sample directories as siblings and uses real held-out sketch images in its
+side panel.
 
 For held-out VAE and diffusion geometry metrics:
 
@@ -157,7 +164,7 @@ experiments/              CarActGen training, evaluation, and paper scripts
 model/FunctionAware/      Function-aware VAE and diffusion models
 model/SDFAutoEncoder/     Original SDF VAE
 model/Diffusion/          Original diffusion model
-viewer/                   Reusable browser viewer template
+viewer/                   Single-sample and paper comparison viewers
 docs/                     Reproduction and result notes
 ```
 

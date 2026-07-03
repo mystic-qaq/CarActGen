@@ -163,7 +163,8 @@ viewer.html            interactive browser viewer
 
 ## 7. Open The Viewer
 
-The viewer uses browser `fetch`, so serve the sample directory over HTTP:
+The single-sample viewer uses browser `fetch`, so serve the sample directory
+over HTTP:
 
 ```bash
 SAMPLE_DIR=$(find "$CARACTGEN_OUTPUT_ROOT/samples" -maxdepth 1 -type d | sort | tail -1)
@@ -185,7 +186,38 @@ ssh -L 8000:localhost:8000 user@server
 Then open the same local URL in your browser. The viewer supports camera orbit,
 wheel rotation, wireframe mode, and target bounding-box display.
 
-## 8. Expected Runtime
+## 8. Paper Comparison Viewer
+
+The paper-style qualitative viewer is under
+[`viewer/paper_qualitative`](../viewer/paper_qualitative). It is the
+multi-sample method/assembly comparison viewer, while
+[`viewer/sample_viewer.html`](../viewer/sample_viewer.html) is only a lightweight
+single-sample viewer copied by the sampling script.
+
+After reproducing the paper sample outputs, copy or symlink
+`viewer/paper_qualitative` into the parent directory that also contains:
+
+```text
+fair_original_artformer_full/
+fair_function_aware_partlocal/
+```
+
+Then serve that parent:
+
+```bash
+python -m http.server 8031 -b 127.0.0.1 -d /path/to/paper_experiments
+```
+
+Open:
+
+```text
+http://localhost:8031/paper_qualitative/viewer.html
+```
+
+This viewer shows real held-out sketch conditions from `sketches/`, not the
+rendered generated preview.
+
+## 9. Expected Runtime
 
 On our 8x RTX 3090 server, the clean PartLocal path with an existing clean
 function-aware VAE initializer took about 3 hours from VAE continuation to
