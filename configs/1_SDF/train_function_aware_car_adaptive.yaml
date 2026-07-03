@@ -1,0 +1,85 @@
+initialize_from_sdf: null
+
+seed: 123456796
+wandb:
+  use: false
+  project: FunctionAware_SDF_Adaptive
+  entity: null
+
+default_root_dir: outputs/function_aware_sdf
+
+dataset_n_dataloader:
+  batch_size: 8
+  n_workers: 8
+
+  dataset_dir: data/datasets
+  sdf_subdir: 2_gensdf_dataset_adaptive
+  mesh_info_dir: data/datasets/1_preprocessed_info
+  samples_per_mesh: 24000
+  pc_size: 8192
+  uniform_sample_ratio: 0.25
+  uniform_sample_ratio_by_function:
+    static_root: 0.25
+    static_part: 0.25
+    rotating_support: 0.20
+    rotating_part: 0.20
+    hinged_panel: 0.20
+    sliding_part: 0.25
+  sample_repeat_by_function:
+    static_root: 3
+    hinged_panel: 2
+    sliding_part: 2
+
+SdfModelSpecs:
+  tanh_act: false
+  skip_connection: true
+  hidden_dim: 512
+  latent_dim: 256
+  pn_hidden_dim: 128
+  num_layers: 9
+
+function_aware:
+  vocab:
+    - static_root
+    - static_part
+    - rotating_support
+    - rotating_part
+    - hinged_panel
+    - sliding_part
+    - handle
+    - support
+  embedding_dim: 64
+  decoder_film: true
+  decoder_film_scale: 0.08
+  loss_weight_by_function:
+    static_root: 1.8
+    static_part: 1.2
+    rotating_support: 1.1
+    rotating_part: 1.1
+    hinged_panel: 1.4
+    sliding_part: 1.4
+  plane_recon_weight: 0.01
+  eikonal_weight: 0.005
+  eikonal_sample_count: 512
+  finite_difference_eps: 0.01
+
+evaluation:
+  max_batch: 32768
+  eval_mesh_output_path: outputs/function_aware_sdf/tempmesh
+  resolution: 128
+  count: 8
+  freq_epoch: 10
+  vis_epoch_freq: 1
+
+checkpoint:
+  path: outputs/function_aware_sdf/checkpoint
+  freq: 250
+  save_top_k: -1
+  save_last: true
+
+num_epochs: 320
+kld_weight: 0.00001
+latent_std: 0.25
+latent_dim: 786
+
+sdf_lr: 0.00002
