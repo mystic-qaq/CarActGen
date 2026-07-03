@@ -17,6 +17,9 @@ CarActGen paper.
 
 Generated datasets, checkpoints, wandb runs, rendered meshes, paper scratch
 outputs, and local PDFs are intentionally excluded.
+Small metadata files and wheel-anchor checkpoints are included under
+[`data/caractgen_metadata`](data/caractgen_metadata) and
+[`checkpoints/wheel_anchor`](checkpoints/wheel_anchor).
 
 ## Setup
 
@@ -48,6 +51,10 @@ export CARACTGEN_FUNCTION_VAE_CKPT=/path/to/function_aware_train_only_vae.ckpt
 
 The recommended paper pipeline is documented in
 [`docs/REPRODUCTION.md`](docs/REPRODUCTION.md).
+
+Dataset source, preprocessing, and size notes are documented in
+[`data/README.md`](data/README.md). Large VAE/diffusion checkpoint checksums and
+placement instructions are documented in [`checkpoints/README.md`](checkpoints/README.md).
 
 For the main clean PartLocal rerun:
 

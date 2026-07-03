@@ -24,6 +24,9 @@ experiments/**/DONE
 *.ckpt
 *.pth
 *.pt
+!checkpoints/
+!checkpoints/wheel_anchor/
+!checkpoints/wheel_anchor/**/*.pt
 *.npy
 *.npz
 *.ply

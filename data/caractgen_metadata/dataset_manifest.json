@@ -1,0 +1,51 @@
+{
+  "name": "CarActGen metadata package",
+  "version": "v0.1.0",
+  "source_dataset": "DrivAerML public STL meshes",
+  "shape_count": 484,
+  "parts_per_shape": 5,
+  "part_names": [
+    "body_shell",
+    "wheel_front_left",
+    "wheel_front_right",
+    "wheel_rear_left",
+    "wheel_rear_right"
+  ],
+  "included": {
+    "1_preprocessed_info": "ArtFormer-format JSON metadata with bounding boxes and wheel joint annotations.",
+    "3_text_condition": "Five text prompts per car used for text conditioning.",
+    "splits": "Clean train/val/test object splits used by the fair experiments."
+  },
+  "not_included_due_to_size": {
+    "0_raw_dataset": "14G",
+    "1_preprocessed_mesh": "6.5G",
+    "2_gensdf_dataset_adaptive": "4.1G",
+    "2.1_text_n_latentcode": "161M",
+    "3_encoded_text_condition": "1.2G",
+    "6_encoded_drivaer_sketch_image_dinov2": "25M"
+  },
+  "counts": {
+    "info_json": 484,
+    "text_files": 2420
+  },
+  "splits": {
+    "object_sketch_dinov2_partlocal_seed123456798.json": {
+      "seed": 123456798,
+      "size": 484,
+      "train": 392,
+      "val": 44,
+      "test": 48,
+      "fixed_val_ids": 0,
+      "fixed_test_ids": 1
+    },
+    "object_sketch_dinov2_routed_seed123456798.json": {
+      "seed": 123456798,
+      "size": 484,
+      "train": 392,
+      "val": 44,
+      "test": 48,
+      "fixed_val_ids": 0,
+      "fixed_test_ids": 1
+    }
+  }
+}

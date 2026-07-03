@@ -1,0 +1,1 @@
+A mid-height articulated car with a compact-length body, a short-wheelbase, and a narrow-track. The object contains one body shell and four wheel parts. The wheels are arranged at the front left, front right, rear left, and rear right positions, and every wheel rotates with a revolute joint around a shared lateral axis.

@@ -1,0 +1,1 @@
+An articulated car with one body shell and four revolute wheel parts.

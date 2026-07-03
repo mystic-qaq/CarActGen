@@ -31,6 +31,8 @@ git add configs/2_Diff/train_adaptive_object_multimodal_car_sketch_dinov2_routed
 Dataset scripts:
 
 ```bash
+git add data/README.md data/caractgen_metadata
+git add data/process_data_script/0_split_drivaerml_stl.py
 git add data/process_data_script/1.0_extract_car_dataset.py
 git add data/process_data_script/2.1_generate_gensdf_dataset.py
 git add data/process_data_script/2.2_generate_diff_dataset.py
@@ -61,7 +63,8 @@ git add experiments/paper_run_wheel_anchor_predictors.sh
 Documentation:
 
 ```bash
-git add docs
+git add docs checkpoints/README.md
+git add -f checkpoints/wheel_anchor
 ```
 
 ## Do Not Add

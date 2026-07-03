@@ -1,0 +1,1 @@
+A four-wheel articulated car with body length 4.75 units, body height 1.35 units, wheelbase 2.89, track width 1.50, and wheel radius about 0.32 units.
