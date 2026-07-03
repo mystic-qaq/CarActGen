@@ -95,6 +95,20 @@ python experiments/paper_prepare_clean_vae_ablations.py \
 Each generated config trains on `train`, selects checkpoints by `val_loss` on
 `val`, and leaves `test` for final reporting.
 
+After training the variants, use a single common evaluator for cross-variant
+metrics:
+
+```bash
+python experiments/paper_vae_ablation_sdf_latent_eval.py \
+  --ablation_root "$CARACTGEN_OUTPUT_ROOT/vae_ablations_clean" \
+  --original_ckpt "$CARACTGEN_ORIGINAL_VAE_CKPT" \
+  --full_ckpt "$CARACTGEN_FUNCTION_VAE_CKPT" \
+  --split_path "$CARACTGEN_SPLIT_PATH" \
+  --eval_sdf_dataset "$CARACTGEN_DATA_ROOT/2_gensdf_dataset_adaptive" \
+  --info_root "$CARACTGEN_DATA_ROOT/1_preprocessed_info" \
+  --output_dir "$CARACTGEN_OUTPUT_ROOT/vae_ablations_clean/eval_sdf_latent"
+```
+
 ```bash
 python experiments/paper_vae_sdf_latent_eval.py \
   --original_ckpt /path/to/original_train_only_vae.ckpt \
