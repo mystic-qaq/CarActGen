@@ -33,6 +33,17 @@ artifacts if exact checkpoint-based reproduction is required.
 | `function_aware_vae_trainonly_epoch0139_val0.00176.ckpt` | clean function-aware VAE | 844996728 bytes | `3cdd015e944715886e991d005a88e7de453b9cc34f54293d25387af298029b4b` |
 | `partlocal_diffusion_trainonly_epoch0599_val0.37401.ckpt` | clean PartLocal diffusion | 985857000 bytes | `0a5fed276407d6df59484e1ced7d93b3b1cc53a388eabeda07b6425eb0f62840` |
 
+Optional clean VAE ablation checkpoints used for the ablation table:
+
+| artifact name | role | size | SHA256 |
+|---|---|---:|---|
+| `ablation_no_adaptive_sampling_epoch0009_val0.00260.ckpt` | no adaptive sampling | 844995642 bytes | `d61c937ab3ed3b6abfdf574067b6c580061dfa322a0bcb0499426099d00ab567` |
+| `ablation_no_decoder_film_epoch0159_val0.00183.ckpt` | no decoder FiLM | 843385706 bytes | `cc47a0b671948c45720f8a7115ee93de77a25da20699f84fffd50e013e45127e` |
+| `ablation_no_eikonal_epoch0059_val0.00201.ckpt` | no eikonal | 844996346 bytes | `26fde6a1fd727973bdff7c1b9d94dbbf9acf8363711df6aeb532badd83a5834e` |
+| `ablation_no_film_conditioning_epoch0109_val0.00181.ckpt` | no FiLM conditioning | 841730062 bytes | `2f409896b86d488bdf275251354e81aa7b56f920b25abfbc194615f744d05772` |
+| `ablation_no_function_loss_weight_epoch0059_val0.00145.ckpt` | no function loss weighting | 844996218 bytes | `e75bc2dfc3abcf2b5b20b6ad5c41e21a48c575a2a8dfee3a4c74038018fe0820` |
+| `ablation_no_plane_recon_epoch0019_val0.00199.ckpt` | no plane reconstruction | 844996346 bytes | `326dd229adacf642e202c7058a72436f25deb256f15ecbf0b344b02cabd6d49c` |
+
 Suggested placement after download:
 
 ```text

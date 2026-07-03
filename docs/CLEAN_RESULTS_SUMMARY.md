@@ -13,6 +13,30 @@ revision. The test split is used only for final evaluation.
 Interpretation: the function-aware VAE keeps SDF accuracy close to the original
 VAE while making the conditioned plane representation much more consistent.
 
+## Clean VAE Ablations
+
+All variants below are trained on the clean train split, selected by validation
+loss on the clean validation split, and evaluated by the same held-out test
+evaluator. Do not compare each variant's training `val_loss` directly, because
+some ablations remove terms from the optimized objective.
+
+| system | surface MAE | uniform MAE | uniform sign | plane L1 | latent std | abs(z)>1 | abs(z)>2 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| full function-aware | 0.01318 | 0.26022 | 0.895 | 0.01587 | 0.285 | 0.0146 | 0.0007 |
+| original VAE | 0.01230 | 0.25896 | 0.902 | 0.77487 | 0.275 | 0.0155 | 0.0011 |
+| no adaptive sampling | 0.01228 | 0.25890 | 0.903 | 0.02067 | 0.315 | 0.0214 | 0.0022 |
+| no decoder FiLM | 0.01236 | 0.25949 | 0.902 | 0.00998 | 0.304 | 0.0196 | 0.0016 |
+| no eikonal | 0.01237 | 0.25951 | 0.900 | 0.01244 | 0.305 | 0.0191 | 0.0012 |
+| no FiLM conditioning | 0.01240 | 0.25942 | 0.901 | 0.01028 | 0.302 | 0.0190 | 0.0012 |
+| no function loss weight | 0.01226 | 0.25934 | 0.902 | 0.01177 | 0.280 | 0.0145 | 0.0005 |
+| no plane recon | 0.01278 | 0.26001 | 0.896 | 0.32179 | 0.283 | 0.0156 | 0.0007 |
+
+Interpretation: SDF reconstruction is close across variants, so this ablation
+should be discussed as a representation and functional-consistency study rather
+than a pure reconstruction win. Removing plane reconstruction strongly damages
+the conditioned plane representation, and removing adaptive sampling increases
+latent outliers while also worsening plane consistency.
+
 ## Diffusion Generated-vs-Source Geometry
 
 Strict articulation validity was zero for both clean pipelines, so it should not
