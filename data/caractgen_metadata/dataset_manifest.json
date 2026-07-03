@@ -1,6 +1,6 @@
 {
   "name": "CarActGen metadata package",
-  "version": "v0.1.0",
+  "version": "v0.1.1",
   "source_dataset": "DrivAerML public STL meshes",
   "shape_count": 484,
   "parts_per_shape": 5,
@@ -30,15 +30,6 @@
   },
   "splits": {
     "object_sketch_dinov2_partlocal_seed123456798.json": {
-      "seed": 123456798,
-      "size": 484,
-      "train": 392,
-      "val": 44,
-      "test": 48,
-      "fixed_val_ids": 0,
-      "fixed_test_ids": 1
-    },
-    "object_sketch_dinov2_routed_seed123456798.json": {
       "seed": 123456798,
       "size": 484,
       "train": 392,

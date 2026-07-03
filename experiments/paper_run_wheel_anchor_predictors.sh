@@ -4,7 +4,7 @@ set -u
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PY="${PY:-python}"
 REPO="${REPO:-$(cd "${SCRIPT_DIR}/.." && pwd)}"
-ROOT="${ROOT:-${CARACTGEN_OUTPUT_ROOT:-${REPO}/outputs}/paper_experiments/wheel_anchor_predictor}"
+ROOT="${ROOT:-${CARACTGEN_OUTPUT_ROOT:-${REPO}/outputs}/caractgen_wheel_anchor}"
 STAMP="${1:-$(date +%Y%m%d_%H%M%S)}"
 RUN="${ROOT}/tmux_${STAMP}"
 

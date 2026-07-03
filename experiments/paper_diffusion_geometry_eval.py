@@ -185,7 +185,7 @@ def main():
     parser.add_argument(
         "--output_dir",
         type=Path,
-        default=env_path("CARACTGEN_OUTPUT_ROOT", REPO_ROOT / "outputs") / "paper_experiments/diffusion_geometry",
+        default=env_path("CARACTGEN_OUTPUT_ROOT", REPO_ROOT / "outputs") / "caractgen_diffusion_geometry",
     )
     args = parser.parse_args()
     if args.original_sample_csv is None or args.adaptive_sample_csv is None:

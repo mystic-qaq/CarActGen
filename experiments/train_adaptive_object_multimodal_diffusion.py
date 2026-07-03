@@ -21,7 +21,6 @@ from model.FunctionAware import (
     AdaptiveObjectMultimodalDiffusionDataset,
     AdaptiveObjectMultimodalFunctionAwareDiffusion,
     AdaptiveObjectPartLocalMultimodalFunctionAwareDiffusion,
-    AdaptiveObjectRoutedMultimodalFunctionAwareDiffusion,
 )
 from utils import parse_config_from_args
 from utils.mylogging import Log
@@ -34,7 +33,6 @@ os.environ["WANDB_DATA_DIR"] = (Path() / "wandb/data").resolve().as_posix()
 MODEL_REGISTRY = {
     "baseline_object": AdaptiveObjectMultimodalFunctionAwareDiffusion,
     "gated_object": AdaptiveObjectGatedMultimodalFunctionAwareDiffusion,
-    "routed_object": AdaptiveObjectRoutedMultimodalFunctionAwareDiffusion,
     "partlocal_object": AdaptiveObjectPartLocalMultimodalFunctionAwareDiffusion,
 }
 

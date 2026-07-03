@@ -1,15 +1,15 @@
 # Reproducing CarActGen Experiments
 
-This document describes the clean protocol used for the CarActGen paper
-experiments. Paths are configured through environment variables so that scripts
-do not depend on a local workstation layout.
+This document describes the clean train-only protocol used for the CarActGen
+paper experiments. Paths are configured through environment variables so that
+scripts do not depend on a local workstation layout.
 
 ## Required Paths
 
 ```bash
 export CARACTGEN_DATA_ROOT=/path/to/ArtFormer_datasets
 export CARACTGEN_OUTPUT_ROOT=/path/to/caractgen_outputs
-export CARACTGEN_SPLIT_PATH=/path/to/splits/object_sketch_dinov2_partlocal_seed123456798.json
+export CARACTGEN_SPLIT_PATH=$PWD/data/caractgen_metadata/splits/object_sketch_dinov2_partlocal_seed123456798.json
 ```
 
 The dataset root is expected to contain:
@@ -22,13 +22,12 @@ The dataset root is expected to contain:
 6_encoded_drivaer_sketch_image_dinov2/
 ```
 
-The split JSON must contain `train`, `val`, and `test` shape-id lists. The test
-list must be held out from all training, checkpoint selection, and latent
-normalization.
+The split JSON must contain `train`, `val`, and `test` shape-id lists. The
+test list is used only for final evaluation.
 
 ## Function-Aware VAE And PartLocal Diffusion
 
-Set one clean initializer for the function-aware VAE:
+Set one clean train-only initializer for the function-aware VAE:
 
 ```bash
 export CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT=/path/to/original_train_only_vae.ckpt
@@ -57,8 +56,27 @@ The pipeline writes configs, manifests, logs, checkpoints, extracted latents,
 and evaluation outputs under:
 
 ```text
-$CARACTGEN_OUTPUT_ROOT/paper_experiments/fair_function_aware_partlocal/
+$CARACTGEN_OUTPUT_ROOT/caractgen_clean_partlocal/
 ```
+
+## Expected Runtime
+
+Observed runtime on our server with 8x NVIDIA RTX 3090 24GB GPUs, 256 CPU
+threads, and about 247GiB RAM:
+
+| stage | GPUs used | observed time |
+|---|---:|---:|
+| original train-only SDF VAE, 320 epochs | 4 | about 2 h 50 min |
+| original train-only diffusion, about 2900 epochs | 4 | about 11 h 40 min |
+| clean function-aware VAE continuation, 160 epochs | 8 | about 1 h |
+| latent extraction with train-only statistics | 1 | about 2 min |
+| clean PartLocal diffusion with monitored stopping | 4 | about 1 h 40 min |
+| test-set sampling and geometry summary | 4 | about 30 min |
+
+The default monitor polls every `POLL_SEC=1200` seconds and stops training when
+the validation metric has not improved for the configured patience window. On a
+smaller GPU setup, expect wall-clock time to scale roughly with the number and
+memory bandwidth of available GPUs.
 
 ## VAE SDF And Latent Evaluation
 
@@ -69,7 +87,7 @@ python experiments/paper_vae_sdf_latent_eval.py \
   --split_path "$CARACTGEN_SPLIT_PATH" \
   --eval_sdf_dataset "$CARACTGEN_DATA_ROOT/2_gensdf_dataset_adaptive" \
   --info_root "$CARACTGEN_DATA_ROOT/1_preprocessed_info" \
-  --output_dir "$CARACTGEN_OUTPUT_ROOT/paper_experiments/vae_sdf_latent"
+  --output_dir "$CARACTGEN_OUTPUT_ROOT/vae_sdf_latent"
 ```
 
 ## Diffusion Geometry Evaluation
@@ -80,7 +98,7 @@ python experiments/paper_diffusion_geometry_eval.py \
   --adaptive_sample_csv /path/to/partlocal_combined_sample_metrics.csv \
   --info_root "$CARACTGEN_DATA_ROOT/1_preprocessed_info" \
   --mesh_root "$CARACTGEN_DATA_ROOT/1_preprocessed_mesh" \
-  --output_dir "$CARACTGEN_OUTPUT_ROOT/paper_experiments/diffusion_geometry"
+  --output_dir "$CARACTGEN_OUTPUT_ROOT/diffusion_geometry"
 ```
 
 The geometry evaluator compares each generated part mesh with the matching
@@ -93,7 +111,7 @@ F-score at 1 percent and 2 percent thresholds.
 bash experiments/paper_run_wheel_anchor_predictors.sh
 ```
 
-This trains both baselines:
+This trains the fixed baseline and two learned predictors:
 
 - `train_mean_template`: fixed train-split mean anchors.
 - `bbox_mlp`: predicts anchors from body bounding-box features.
@@ -114,9 +132,3 @@ and generated meshes. It should show:
 
 Generated viewer assets should not be committed to the release branch. Commit
 only reusable viewer-generation code or documentation.
-
-## What Not To Claim As Main Fair Results
-
-Routed diffusion and old all-data ablations are useful design exploration, but
-they should not be mixed into main fair tables unless rerun with the same clean
-split and train-only latent statistics.

@@ -16,7 +16,7 @@ dataset_n_dataloader:
   test_ratio: 0.10
   fixed_test_ids:
     - car_drivaer_305
-  split_path: splits/object_sketch_dinov2_partlocal_seed123456798.json
+  split_path: data/caractgen_metadata/splits/object_sketch_dinov2_partlocal_seed123456798.json
   dataset_path: outputs/datasets/2.1_adaptive_multimodal_latentcode_sketch_dinov2
 
 checkpoint:

@@ -11,8 +11,8 @@ from utils.mylogging import Log
 
 from .adaptive_multimodal_diffusion import cosine_beta_schedule, sinusoidal_embedding
 from .adaptive_object_gated_multimodal_diffusion import _masked_mean, gather_object_sequence
-from .adaptive_object_routed_multimodal_diffusion import FunctionAwareOutputHead
 from .functions import FUNCTION_TO_ID, FUNCTION_VOCAB
+from .output_heads import FunctionAwareOutputHead
 from .sdf import FunctionAwareSDFAutoEncoder
 
 

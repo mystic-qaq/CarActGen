@@ -41,11 +41,6 @@ PRESETS = {
         ("partlocal_text_image_cfg1.0", "text_image", 1.0),
         ("partlocal_text_image_cfg1.2", "text_image", 1.2),
     ],
-    "routed": [
-        ("routed_text_cfg1.5", "text", 1.5),
-        ("routed_image_cfg1.5", "image", 1.5),
-        ("routed_text_image_cfg1.5", "text_image", 1.5),
-    ],
 }
 
 
@@ -229,12 +224,12 @@ def main():
     parser.add_argument("--preset", choices=sorted(PRESETS), required=True)
     parser.add_argument("--checkpoint", type=Path, required=True)
     parser.add_argument("--dataset_path", type=Path, default=env_path("CARACTGEN_LATENT_DATASET", env_path("CARACTGEN_OUTPUT_ROOT", REPO_ROOT / "outputs") / "datasets/2.1_adaptive_multimodal_latentcode_sketch_dinov2"))
-    parser.add_argument("--split_path", type=Path, default=env_path("CARACTGEN_SPLIT_PATH", REPO_ROOT / "splits/object_sketch_dinov2_partlocal_seed123456798.json"))
+    parser.add_argument("--split_path", type=Path, default=env_path("CARACTGEN_SPLIT_PATH", REPO_ROOT / "data/caractgen_metadata/splits/object_sketch_dinov2_partlocal_seed123456798.json"))
     parser.add_argument("--split", default="test")
     parser.add_argument("--max_shapes", type=int, default=24)
     parser.add_argument("--start", type=int, default=0)
     parser.add_argument("--end", type=int, default=None)
-    parser.add_argument("--output_dir", type=Path, default=env_path("CARACTGEN_OUTPUT_ROOT", REPO_ROOT / "outputs") / "paper_experiments/diffusion_samples")
+    parser.add_argument("--output_dir", type=Path, default=env_path("CARACTGEN_OUTPUT_ROOT", REPO_ROOT / "outputs") / "caractgen_diffusion_samples")
     parser.add_argument("--image_embedding_dir", type=Path, default=None)
     parser.add_argument("--info_root", type=Path, default=env_path("CARACTGEN_INFO_ROOT", env_path("CARACTGEN_DATA_ROOT", REPO_ROOT / "data/datasets") / "1_preprocessed_info"))
     parser.add_argument("--mesh_root", type=Path, default=env_path("CARACTGEN_MESH_ROOT", env_path("CARACTGEN_DATA_ROOT", REPO_ROOT / "data/datasets") / "1_preprocessed_mesh"))

@@ -160,7 +160,7 @@ def main():
     parser = argparse.ArgumentParser(description="Evaluate original and function-aware SDF VAEs with held-out SDF queries.")
     parser.add_argument("--original_ckpt", type=Path, default=env_path("CARACTGEN_ORIGINAL_VAE_CKPT"))
     parser.add_argument("--function_ckpt", type=Path, default=env_path("CARACTGEN_FUNCTION_VAE_CKPT"))
-    parser.add_argument("--split_path", type=Path, default=env_path("CARACTGEN_SPLIT_PATH", REPO_ROOT / "splits/object_sketch_dinov2_partlocal_seed123456798.json"))
+    parser.add_argument("--split_path", type=Path, default=env_path("CARACTGEN_SPLIT_PATH", REPO_ROOT / "data/caractgen_metadata/splits/object_sketch_dinov2_partlocal_seed123456798.json"))
     parser.add_argument("--split", default="test")
     parser.add_argument("--max_shapes", type=int, default=48)
     parser.add_argument("--eval_sdf_dataset", type=Path, default=env_path("CARACTGEN_SDF_ROOT", env_path("CARACTGEN_DATA_ROOT", REPO_ROOT / "data/datasets") / "2_gensdf_dataset_adaptive"))
@@ -169,7 +169,7 @@ def main():
     parser.add_argument("--query_samples", type=int, default=4096)
     parser.add_argument("--max_batch", type=int, default=32768)
     parser.add_argument("--seed", type=int, default=20260702)
-    parser.add_argument("--output_dir", type=Path, default=env_path("CARACTGEN_OUTPUT_ROOT", REPO_ROOT / "outputs") / "paper_experiments/vae_sdf_latent")
+    parser.add_argument("--output_dir", type=Path, default=env_path("CARACTGEN_OUTPUT_ROOT", REPO_ROOT / "outputs") / "caractgen_vae_sdf_latent")
     args = parser.parse_args()
 
     if args.original_ckpt is None or args.function_ckpt is None:

@@ -572,10 +572,10 @@ def train(args):
 def main():
     parser = argparse.ArgumentParser(description="Train a lightweight wheel-anchor predictor and compare with template assembly.")
     parser.add_argument("--model", choices=["bbox_mlp", "pointnet_anchor"], default="pointnet_anchor")
-    parser.add_argument("--split_path", type=Path, default=env_path("CARACTGEN_SPLIT_PATH", REPO_ROOT / "splits/object_sketch_dinov2_partlocal_seed123456798.json"))
+    parser.add_argument("--split_path", type=Path, default=env_path("CARACTGEN_SPLIT_PATH", REPO_ROOT / "data/caractgen_metadata/splits/object_sketch_dinov2_partlocal_seed123456798.json"))
     parser.add_argument("--info_root", type=Path, default=env_path("CARACTGEN_INFO_ROOT", env_path("CARACTGEN_DATA_ROOT", REPO_ROOT / "data/datasets") / "1_preprocessed_info"))
     parser.add_argument("--sdf_root", type=Path, default=env_path("CARACTGEN_SDF_ROOT", env_path("CARACTGEN_DATA_ROOT", REPO_ROOT / "data/datasets") / "2_gensdf_dataset_adaptive"))
-    parser.add_argument("--output_dir", type=Path, default=env_path("CARACTGEN_OUTPUT_ROOT", REPO_ROOT / "outputs") / "paper_experiments/wheel_anchor_predictor")
+    parser.add_argument("--output_dir", type=Path, default=env_path("CARACTGEN_OUTPUT_ROOT", REPO_ROOT / "outputs") / "caractgen_wheel_anchor")
     parser.add_argument("--cache_path", type=Path)
     parser.add_argument("--rebuild_cache", action="store_true")
     parser.add_argument("--pc_size", type=int, default=2048)

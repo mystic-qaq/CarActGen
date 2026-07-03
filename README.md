@@ -1,19 +1,18 @@
 # CarActGen
 
 Function-aware car part generation built on top of ArtFormer. This repository
-contains the code used for clean train/validation/test experiments, PartLocal
-multimodal diffusion, and the learned wheel-anchor assembly module used in the
-CarActGen paper.
+contains the clean train-only code path used in the CarActGen paper: a held-out
+object split, function-aware SDF VAE training, PartLocal multimodal diffusion,
+and the learned wheel-anchor assembly module.
 
 ## What This Repository Contains
 
 - Original ArtFormer SDF, diffusion, and transformer code.
 - Function-aware SDF VAE modules under `model/FunctionAware`.
-- Object-level multimodal diffusion variants, including `partlocal_object`.
-- Clean split training and evaluation scripts for the paper.
+- PartLocal object-level multimodal diffusion.
+- Clean train/validation/test training and evaluation scripts for the paper.
 - Wheel-anchor predictors for comparing template assembly with learned assembly.
-- Documentation for reproducing the fair experiments and preparing a GitHub
-  release.
+- Documentation for reproducing the reported experiments.
 
 Generated datasets, checkpoints, wandb runs, rendered meshes, paper scratch
 outputs, and local PDFs are intentionally excluded.
@@ -37,7 +36,7 @@ Set project paths with environment variables instead of editing scripts:
 ```bash
 export CARACTGEN_DATA_ROOT=/path/to/ArtFormer_datasets
 export CARACTGEN_OUTPUT_ROOT=/path/to/caractgen_outputs
-export CARACTGEN_SPLIT_PATH=/path/to/splits/object_sketch_dinov2_partlocal_seed123456798.json
+export CARACTGEN_SPLIT_PATH=$PWD/data/caractgen_metadata/splits/object_sketch_dinov2_partlocal_seed123456798.json
 ```
 
 Checkpoint variables are needed for evaluator scripts:
@@ -47,7 +46,7 @@ export CARACTGEN_ORIGINAL_VAE_CKPT=/path/to/original_train_only_vae.ckpt
 export CARACTGEN_FUNCTION_VAE_CKPT=/path/to/function_aware_train_only_vae.ckpt
 ```
 
-## Clean Experiment Pipeline
+## Main Reproduction Pipeline
 
 The recommended paper pipeline is documented in
 [`docs/REPRODUCTION.md`](docs/REPRODUCTION.md).
@@ -56,7 +55,7 @@ Dataset source, preprocessing, and size notes are documented in
 [`data/README.md`](data/README.md). Large VAE/diffusion checkpoint checksums and
 placement instructions are documented in [`checkpoints/README.md`](checkpoints/README.md).
 
-For the main clean PartLocal rerun:
+For the main clean train-only PartLocal rerun:
 
 ```bash
 bash experiments/paper_run_clean_partlocal_pipeline.sh
@@ -80,16 +79,16 @@ python experiments/paper_diffusion_geometry_eval.py \
   --adaptive_sample_csv /path/to/partlocal_combined_sample_metrics.csv
 ```
 
-## Fairness Policy
+## Protocol
 
-The paper results should use a clean object split: test shapes must be held out
-from VAE training, VAE checkpoint selection, diffusion training, diffusion
-checkpoint selection, and latent normalization statistics. The release scripts
-preserve this policy by reading `CARACTGEN_SPLIT_PATH` and by computing latent
-statistics on the train split only.
+All reported model checkpoints use the train split for optimization, the
+validation split for checkpoint selection, and the test split only for final
+evaluation. Latent normalization statistics are computed from the train split.
 
-Old all-data experiments and Routed diffusion runs should be treated as
-architectural exploration unless they are rerun under the same clean protocol.
+On our 8x RTX 3090 server, the clean PartLocal pipeline with an existing clean
+function-aware VAE initializer took about 3 hours from VAE continuation to
+test-set evaluation. A from-scratch full reproduction, including the original
+baseline VAE and diffusion, should be budgeted as an overnight run.
 
 ## Repository Layout
 
@@ -100,7 +99,7 @@ experiments/              CarActGen training, evaluation, and paper scripts
 model/FunctionAware/      Function-aware VAE and diffusion models
 model/SDFAutoEncoder/     Original SDF VAE
 model/Diffusion/          Original diffusion model
-docs/                     Reproduction and release notes
+docs/                     Reproduction and result notes
 ```
 
 ## Acknowledgement

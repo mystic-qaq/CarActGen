@@ -88,6 +88,12 @@ Text conditions in `data/caractgen_metadata/3_text_condition/` can be copied to
 `$CARACTGEN_DATA_ROOT/3_text_condition/` before running the text-encoding and
 latent-extraction steps described in `docs/REPRODUCTION.md`.
 
+Use the released split file as the only split for reported experiments:
+
+```bash
+export CARACTGEN_SPLIT_PATH=$PWD/data/caractgen_metadata/splits/object_sketch_dinov2_partlocal_seed123456798.json
+```
+
 ## Size Notes
 
 The local full dataset used for the paper is approximately:

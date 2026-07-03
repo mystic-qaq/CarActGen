@@ -84,7 +84,7 @@ def write_markdown(path: Path, summary_rows):
 
 def main():
     parser = argparse.ArgumentParser(description="Combine diffusion sample-evaluation CSV shards.")
-    parser.add_argument("--output_dir", type=Path, default=env_path("CARACTGEN_OUTPUT_ROOT", REPO_ROOT / "outputs") / "paper_experiments/diffusion_samples")
+    parser.add_argument("--output_dir", type=Path, default=env_path("CARACTGEN_OUTPUT_ROOT", REPO_ROOT / "outputs") / "caractgen_diffusion_samples")
     args = parser.parse_args()
 
     sample_paths = sorted(args.output_dir.glob("*_sample_metrics_*.csv"))

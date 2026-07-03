@@ -1,9 +1,7 @@
 # Clean Experiment Results
 
-These are the clean-protocol results used for the current CarActGen paper
-revision. The test split is held out from VAE training, VAE checkpoint
-selection, diffusion training, diffusion checkpoint selection, and latent
-normalization.
+These are the clean train-only results used for the current CarActGen paper
+revision. The test split is used only for final evaluation.
 
 ## VAE SDF And Latent Metrics
 
@@ -53,9 +51,3 @@ claim that wheel topology and assembly remain the bottleneck.
 
 Use the PointNet anchor predictor in qualitative figures as the learned
 assembly module. The fixed template can be shown as a baseline in the viewer.
-
-## Time-Budget Decision
-
-Do not rerun the large VAE ablation grid or Routed diffusion training for the
-main paper unless more time becomes available. Report Routed as architectural
-exploration or a negative result, not as a main fair-comparison method.

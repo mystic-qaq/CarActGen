@@ -9,11 +9,11 @@ import yaml
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-OUTPUT_ROOT = Path(os.environ.get("CARACTGEN_OUTPUT_ROOT", REPO_ROOT / "outputs")) / "paper_experiments/fair_function_aware_partlocal"
+OUTPUT_ROOT = Path(os.environ.get("CARACTGEN_OUTPUT_ROOT", REPO_ROOT / "outputs")) / "caractgen_clean_partlocal"
 SPLIT_PATH = Path(
     os.environ.get(
         "CARACTGEN_SPLIT_PATH",
-        REPO_ROOT / "splits/object_sketch_dinov2_partlocal_seed123456798.json",
+        REPO_ROOT / "data/caractgen_metadata/splits/object_sketch_dinov2_partlocal_seed123456798.json",
     )
 )
 BASE_DATASET = Path(os.environ.get("CARACTGEN_DATA_ROOT", REPO_ROOT / "data/datasets"))

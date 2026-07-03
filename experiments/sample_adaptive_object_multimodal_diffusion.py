@@ -22,7 +22,6 @@ from model.FunctionAware import (
     AdaptiveObjectGatedMultimodalFunctionAwareDiffusion,
     AdaptiveObjectMultimodalFunctionAwareDiffusion,
     AdaptiveObjectPartLocalMultimodalFunctionAwareDiffusion,
-    AdaptiveObjectRoutedMultimodalFunctionAwareDiffusion,
     FUNCTION_TO_ID,
     FunctionAwareSDFAutoEncoder,
     load_function_map,
@@ -78,8 +77,6 @@ def resolve_model_class_from_checkpoint(checkpoint_path: Path):
     architecture = config.get("model", {}).get("architecture", "baseline_object")
     if architecture == "gated_object":
         return AdaptiveObjectGatedMultimodalFunctionAwareDiffusion
-    if architecture == "routed_object":
-        return AdaptiveObjectRoutedMultimodalFunctionAwareDiffusion
     if architecture == "partlocal_object":
         return AdaptiveObjectPartLocalMultimodalFunctionAwareDiffusion
     return AdaptiveObjectMultimodalFunctionAwareDiffusion
