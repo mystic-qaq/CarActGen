@@ -7,8 +7,13 @@ DrivAerML STL dataset using the scripts in `data/process_data_script/`.
 
 ## Source
 
-The car geometry comes from the public DrivAerML dataset. Download the STL
-meshes from the official dataset page, then arrange them as:
+The car geometry comes from the public DrivAerML dataset:
+
+- Official dataset page: https://caemldatasets.org/drivaerml/
+- Hugging Face mirror: https://huggingface.co/datasets/neashton/drivaerml
+
+Download the STL meshes from the official dataset page or Hugging Face mirror,
+then arrange them as:
 
 ```text
 $DRIVAERML_ROOT/
@@ -43,6 +48,18 @@ data/caractgen_metadata/
 
 These files are sufficient to inspect the dataset split, part hierarchy, wheel
 anchors, and text conditions used in the paper.
+
+## Full Derived Archive
+
+The full derived CarActGen dataset is too large for git. For the course release,
+place the archive in this PKU Disk folder:
+
+```text
+https://disk.pku.edu.cn/anyshare/zh-cn/dir/6DAC6AE607984BBD9DE8AC53993D75FD
+```
+
+After download and extraction, set `CARACTGEN_DATA_ROOT` to the extracted
+`ArtFormer_datasets` directory.
 
 ## Regenerating Full Data
 
