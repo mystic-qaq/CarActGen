@@ -121,14 +121,29 @@ Use `pointnet_anchor` as the learned assembly module in qualitative results.
 
 ## Qualitative Viewer
 
-The qualitative viewer is generated outside git with lightweight JSON metadata
-and generated meshes. It should show:
+For a single generated sample, use the reusable template in
+[`viewer/sample_viewer.html`](../viewer/sample_viewer.html):
 
-- anonymized test labels such as `Test1`, `Test2`;
-- the text condition;
-- source/reference parts;
-- generated parts;
-- template, BBox MLP, and PointNet anchor assemblies.
+```bash
+export CARACTGEN_VIEWER_TEMPLATE=$PWD/viewer/sample_viewer.html
 
-Generated viewer assets should not be committed to the release branch. Commit
-only reusable viewer-generation code or documentation.
+python experiments/sample_adaptive_object_multimodal_diffusion.py \
+  --checkpoint "$CARACTGEN_PARTLOCAL_DIFFUSION_CKPT" \
+  --dataset_path "$CARACTGEN_DATA_ROOT/2.1_text_n_latentcode" \
+  --shape_id car_drivaer_305 \
+  --condition_mode text_image \
+  --image_embedding_dir "$CARACTGEN_DATA_ROOT/6_encoded_drivaer_sketch_image_dinov2" \
+  --guidance_scale 1.2
+
+SAMPLE_DIR=$(find "$CARACTGEN_OUTPUT_ROOT/samples" -maxdepth 1 -type d | sort | tail -1)
+python -m http.server --directory "$SAMPLE_DIR" 8000
+```
+
+Then open `http://localhost:8000/viewer.html`. If the run is on a remote
+server, forward the port with `ssh -L 8000:localhost:8000 user@server`.
+
+The paper comparison viewer is generated outside git from lightweight JSON
+metadata and generated meshes. It should show anonymized test labels, the text
+condition, input sketch, generated parts, template assembly, and learned
+PointNet anchor assembly. Generated viewer assets should not be committed to
+the release branch.

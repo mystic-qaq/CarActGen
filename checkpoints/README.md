@@ -46,4 +46,8 @@ or command-line arguments, for example:
 ```bash
 export CARACTGEN_ORIGINAL_VAE_CKPT=checkpoints/large/original_vae_trainonly_sdf_epoch0119_val0.00168.ckpt
 export CARACTGEN_FUNCTION_VAE_CKPT=checkpoints/large/function_aware_vae_trainonly_epoch0139_val0.00176.ckpt
+export CARACTGEN_PARTLOCAL_DIFFUSION_CKPT=checkpoints/large/partlocal_diffusion_trainonly_epoch0599_val0.37401.ckpt
+
+export CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT=$CARACTGEN_ORIGINAL_VAE_CKPT
+export CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT=$CARACTGEN_FUNCTION_VAE_CKPT
 ```

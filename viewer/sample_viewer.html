@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CarActGen Sample Viewer</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --ink: #18212b;
+      --muted: #657386;
+      --panel: #ffffff;
+      --line: rgba(24, 33, 43, 0.16);
+      --accent: #176f7a;
+      --error: #a63832;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #app {
+      position: fixed;
+      inset: 0;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .toolbar {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      top: 14px;
+      display: flex;
+      min-height: 48px;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 10px 28px rgba(24, 33, 43, 0.12);
+      backdrop-filter: blur(14px);
+    }
+
+    button,
+    input[type="range"] {
+      height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    button {
+      min-width: 36px;
+      padding: 0 10px;
+      cursor: pointer;
+    }
+
+    button.active {
+      border-color: rgba(23, 111, 122, 0.46);
+      background: rgba(23, 111, 122, 0.10);
+      color: var(--accent);
+    }
+
+    .range-wrap {
+      display: flex;
+      min-width: 180px;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    input[type="range"] {
+      width: 108px;
+      padding: 0;
+      accent-color: var(--accent);
+    }
+
+    .badge {
+      display: inline-flex;
+      height: 26px;
+      align-items: center;
+      padding: 0 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.74);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .status {
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 13px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .status.error { color: var(--error); }
+
+    @media (max-width: 760px) {
+      .toolbar {
+        flex-wrap: wrap;
+        align-items: stretch;
+      }
+
+      .status {
+        flex-basis: 100%;
+      }
+    }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="app"></div>
+  <div class="toolbar">
+    <button id="playButton" class="active" title="Play or pause wheel rotation">Pause</button>
+    <button id="resetButton" title="Reset camera">Reset</button>
+    <button id="wireButton" title="Toggle wireframe">Wire</button>
+    <button id="boxButton" title="Toggle target boxes">Boxes</button>
+    <div class="range-wrap">
+      <span>speed</span>
+      <input id="speedRange" type="range" min="0" max="3" step="0.05" value="1.05">
+      <span id="speedValue">1.05</span>
+    </div>
+    <span id="partCount" class="badge">0 parts</span>
+    <div id="status" class="status">Loading</div>
+  </div>
+
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+    import { PLYLoader } from "three/addons/loaders/PLYLoader.js";
+
+    const colors = {
+      body_shell: 0x4677a9,
+      wheel_front_left: 0xe3922f,
+      wheel_front_right: 0xd95a54,
+      wheel_rear_left: 0x66aaa5,
+      wheel_rear_right: 0x65a454
+    };
+
+    const app = document.querySelector("#app");
+    const playButton = document.querySelector("#playButton");
+    const resetButton = document.querySelector("#resetButton");
+    const wireButton = document.querySelector("#wireButton");
+    const boxButton = document.querySelector("#boxButton");
+    const speedRange = document.querySelector("#speedRange");
+    const speedValue = document.querySelector("#speedValue");
+    const partCount = document.querySelector("#partCount");
+    const status = document.querySelector("#status");
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0xf6f7f9, 1);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    app.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 100);
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x8996a3, 2.25));
+    const key = new THREE.DirectionalLight(0xffffff, 2.0);
+    key.position.set(4, -5, 5);
+    scene.add(key);
+    const fill = new THREE.DirectionalLight(0xffffff, 0.95);
+    fill.position.set(-4, 4, 3);
+    scene.add(fill);
+
+    const grid = new THREE.GridHelper(6, 24, 0xb9c3cf, 0xd9dee4);
+    grid.rotation.x = Math.PI / 2;
+    grid.position.z = -0.34;
+    scene.add(grid);
+
+    const carRoot = new THREE.Group();
+    scene.add(carRoot);
+
+    const loader = new PLYLoader();
+    const clock = new THREE.Clock();
+    const wheels = [];
+    const materials = [];
+    const boxes = [];
+    let playing = true;
+    let wireframe = false;
+    let boxesVisible = false;
+    let speed = Number(speedRange.value);
+    let cameraFrame = null;
+
+    function setStatus(text, isError = false) {
+      status.textContent = text;
+      status.classList.toggle("error", isError);
+    }
+
+    function loadJson(url) {
+      return fetch(url).then((response) => {
+        if (!response.ok) throw new Error(`${url} ${response.status}`);
+        return response.json();
+      });
+    }
+
+    function loadPly(url) {
+      return new Promise((resolve, reject) => {
+        loader.load(url, resolve, undefined, reject);
+      });
+    }
+
+    function meshPathForPart(part) {
+      const sourcePath = part.source_mesh_path || "";
+      const filename = sourcePath.split(/[\\/]/).pop();
+      if (!filename) return null;
+      return `reconstructed_part_mesh/${filename}`;
+    }
+
+    function targetBox(part) {
+      const center = new THREE.Vector3().fromArray(part.bbx[0]);
+      const size = new THREE.Vector3().fromArray(part.bbx[1]);
+      const half = size.clone().multiplyScalar(0.5);
+      return {
+        center,
+        size,
+        min: center.clone().sub(half),
+        max: center.clone().add(half)
+      };
+    }
+
+    function fitGeometryToPart(geometry, part, relativeToJoint) {
+      geometry.computeBoundingBox();
+      const sourceBox = geometry.boundingBox;
+      const sourceMin = sourceBox.min;
+      const sourceSize = new THREE.Vector3();
+      sourceBox.getSize(sourceSize);
+
+      const box = targetBox(part);
+      const origin = new THREE.Vector3().fromArray(part.joint_data_origin);
+      const position = geometry.attributes.position;
+      const vertex = new THREE.Vector3();
+
+      for (let i = 0; i < position.count; i += 1) {
+        vertex.fromBufferAttribute(position, i);
+        const x = box.min.x + ((vertex.x - sourceMin.x) / Math.max(sourceSize.x, 1e-6)) * box.size.x;
+        const y = box.min.y + ((vertex.y - sourceMin.y) / Math.max(sourceSize.y, 1e-6)) * box.size.y;
+        const z = box.min.z + ((vertex.z - sourceMin.z) / Math.max(sourceSize.z, 1e-6)) * box.size.z;
+        if (relativeToJoint) {
+          position.setXYZ(i, x - origin.x, y - origin.y, z - origin.z);
+        } else {
+          position.setXYZ(i, x, y, z);
+        }
+      }
+
+      position.needsUpdate = true;
+      geometry.computeVertexNormals();
+      geometry.computeBoundingBox();
+      geometry.computeBoundingSphere();
+      return box;
+    }
+
+    function addBoxHelper(box) {
+      const helper = new THREE.Box3Helper(new THREE.Box3(box.min, box.max), 0x243b53);
+      helper.material.transparent = true;
+      helper.material.opacity = 0.32;
+      helper.visible = boxesVisible;
+      carRoot.add(helper);
+      boxes.push(helper);
+    }
+
+    function updateCamera(structure) {
+      const allMin = new THREE.Vector3(Infinity, Infinity, Infinity);
+      const allMax = new THREE.Vector3(-Infinity, -Infinity, -Infinity);
+      for (const part of structure.parts) {
+        const box = targetBox(part);
+        allMin.min(box.min);
+        allMax.max(box.max);
+      }
+      const center = allMin.clone().add(allMax).multiplyScalar(0.5);
+      const size = allMax.clone().sub(allMin);
+      const radius = Math.max(size.x, size.y, size.z) * 0.75;
+      cameraFrame = { center, radius };
+      camera.position.set(center.x + radius * 1.95, center.y - radius * 2.35, center.z + radius * 1.15);
+      camera.near = 0.01;
+      camera.far = Math.max(40, radius * 12);
+      camera.updateProjectionMatrix();
+      controls.target.copy(center);
+      controls.update();
+      grid.position.x = center.x;
+      grid.position.y = center.y;
+      grid.scale.setScalar(Math.max(1, radius / 1.2));
+    }
+
+    async function loadCar() {
+      setStatus("Loading meshes");
+      try {
+        const structure = await loadJson("structure.json");
+        updateCamera(structure);
+        for (const part of structure.parts) {
+          const meshPath = meshPathForPart(part);
+          if (!meshPath) continue;
+          const geometry = await loadPly(meshPath);
+          const isWheel = part.name.startsWith("wheel_");
+          const box = fitGeometryToPart(geometry, part, isWheel);
+          const material = new THREE.MeshStandardMaterial({
+            color: colors[part.name] ?? 0x8a99a8,
+            roughness: 0.62,
+            metalness: 0.03,
+            wireframe
+          });
+          materials.push(material);
+
+          const mesh = new THREE.Mesh(geometry, material);
+          mesh.name = part.name;
+          if (isWheel) {
+            const pivot = new THREE.Group();
+            pivot.name = `${part.name}_pivot`;
+            pivot.position.fromArray(part.joint_data_origin);
+            pivot.add(mesh);
+            carRoot.add(pivot);
+            wheels.push({
+              pivot,
+              axis: new THREE.Vector3().fromArray(part.joint_data_direction).normalize()
+            });
+          } else {
+            carRoot.add(mesh);
+          }
+          addBoxHelper(box);
+        }
+        partCount.textContent = `${structure.parts.length} parts`;
+        setStatus("CarActGen generated sample");
+      } catch (error) {
+        console.error(error);
+        setStatus(error.message || String(error), true);
+      }
+    }
+
+    function resetCamera() {
+      if (!cameraFrame) return;
+      const { center, radius } = cameraFrame;
+      camera.position.set(center.x + radius * 1.95, center.y - radius * 2.35, center.z + radius * 1.15);
+      controls.target.copy(center);
+      controls.update();
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const dt = clock.getDelta();
+      controls.update();
+      if (playing) {
+        const spin = dt * speed * Math.PI * 2.0;
+        for (const wheel of wheels) wheel.pivot.rotateOnAxis(wheel.axis, spin);
+      }
+      renderer.render(scene, camera);
+    }
+
+    playButton.addEventListener("click", () => {
+      playing = !playing;
+      playButton.textContent = playing ? "Pause" : "Play";
+      playButton.classList.toggle("active", playing);
+    });
+    resetButton.addEventListener("click", resetCamera);
+    wireButton.addEventListener("click", () => {
+      wireframe = !wireframe;
+      wireButton.classList.toggle("active", wireframe);
+      for (const material of materials) material.wireframe = wireframe;
+    });
+    boxButton.addEventListener("click", () => {
+      boxesVisible = !boxesVisible;
+      boxButton.classList.toggle("active", boxesVisible);
+      for (const box of boxes) box.visible = boxesVisible;
+    });
+    speedRange.addEventListener("input", () => {
+      speed = Number(speedRange.value);
+      speedValue.textContent = speed.toFixed(2);
+    });
+    window.addEventListener("resize", () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    loadCar();
+    animate();
+  </script>
+</body>
+</html>
