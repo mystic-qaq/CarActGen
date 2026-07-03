@@ -8,14 +8,16 @@ and repository-size limits.
 ## Included
 
 ```text
+checkpoints/layout_net/condition_latent/best.pt
 checkpoints/wheel_anchor/pointnet_anchor/best.pt
 checkpoints/wheel_anchor/bbox_mlp/best.pt
 ```
 
-These are the learned wheel-anchor assembly models reported in the paper.
+These are the small learned layout/assembly models reported in the paper.
 
 | model | size | SHA256 |
 |---|---:|---|
+| LayoutNet condition+latent layout | 5402186 bytes | `82e148f563691447af306795af82fc150c01a498c82e5061fb67dc3d2c303c2e` |
 | PointNet anchor | 786424 bytes | `9e7465b4751e7c70ba5f81113b1a1dc7ac07975e00f01c25c1f1edc8246936db` |
 | BBox MLP anchor | 112642 bytes | `544eb777afb11f8cf30772aec35ba41ec1b8711e18cefa9205c1f2cb9c002581` |
 
@@ -47,6 +49,7 @@ or command-line arguments, for example:
 export CARACTGEN_ORIGINAL_VAE_CKPT=checkpoints/large/original_vae_trainonly_sdf_epoch0119_val0.00168.ckpt
 export CARACTGEN_FUNCTION_VAE_CKPT=checkpoints/large/function_aware_vae_trainonly_epoch0139_val0.00176.ckpt
 export CARACTGEN_PARTLOCAL_DIFFUSION_CKPT=checkpoints/large/partlocal_diffusion_trainonly_epoch0599_val0.37401.ckpt
+export CARACTGEN_LAYOUT_CKPT=checkpoints/layout_net/condition_latent/best.pt
 
 export CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT=$CARACTGEN_ORIGINAL_VAE_CKPT
 export CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT=$CARACTGEN_FUNCTION_VAE_CKPT

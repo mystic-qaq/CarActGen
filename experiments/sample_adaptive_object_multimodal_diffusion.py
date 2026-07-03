@@ -18,6 +18,13 @@ sys.path.append(REPO_ROOT.as_posix())
 
 import utils.mesh as MeshUtils
 from experiments.fixed_car_template import PART_ORDER, build_parts, load_source_parts, render_to_image, write_structure
+from experiments.layout_net import (
+    batch_from_sample_condition,
+    build_parts_from_layout,
+    decode_layout_target,
+    load_layout_checkpoint,
+    predict_layout_vector,
+)
 from model.FunctionAware import (
     AdaptiveObjectGatedMultimodalFunctionAwareDiffusion,
     AdaptiveObjectMultimodalFunctionAwareDiffusion,
@@ -191,6 +198,8 @@ def main():
     parser.add_argument("--sdf_resolution", type=int, default=128)
     parser.add_argument("--max_batch", type=int, default=32768)
     parser.add_argument("--viewer_template", type=Path, default=env_path("CARACTGEN_VIEWER_TEMPLATE"))
+    parser.add_argument("--layout_checkpoint", type=Path, default=env_path("CARACTGEN_LAYOUT_CKPT"))
+    parser.add_argument("--disable_layout_symmetry", action="store_true")
     args = parser.parse_args()
 
     if not torch.cuda.is_available():
@@ -233,8 +242,37 @@ def main():
         name: {"source": source_parts[name]["source"], "mesh": meshes[name], "mesh_path": output_dir / "generated_part_mesh" / f"{idx + 1:02d}_{name}.ply"}
         for idx, name in enumerate(PART_ORDER)
     }
-    parts = build_parts(generated_source_parts, "source-bbox")
-    write_structure(parts, output_dir / "structure.json", {"category": "car", "shape_id": args.shape_id}, "source-bbox")
+    template_mode = "source-bbox"
+    if args.layout_checkpoint:
+        layout_model, layout_stats, layout_payload = load_layout_checkpoint(args.layout_checkpoint, device=device)
+        layout_latents, layout_text, layout_image, layout_function_ids = batch_from_sample_condition(batch, latents)
+        layout_vector = predict_layout_vector(
+            layout_model,
+            layout_stats,
+            layout_latents,
+            layout_text,
+            layout_image,
+            layout_function_ids,
+            device=device,
+        )
+        layout = decode_layout_target(layout_vector, symmetrize=not args.disable_layout_symmetry)
+        parts = build_parts_from_layout(generated_source_parts, layout)
+        template_mode = "layout-net"
+        (output_dir / "layout_prediction.json").write_text(
+            json.dumps(
+                {
+                    "layout_checkpoint": args.layout_checkpoint.as_posix(),
+                    "layout_epoch": int(layout_payload.get("epoch", -1)),
+                    "symmetrized": not args.disable_layout_symmetry,
+                    "layout": layout,
+                },
+                indent=2,
+            )
+            + "\n"
+        )
+    else:
+        parts = build_parts(generated_source_parts, "source-bbox")
+    write_structure(parts, output_dir / "structure.json", {"category": "car", "shape_id": args.shape_id}, template_mode)
     with open(output_dir / "processed_nodes.pkl", "wb") as f:
         pickle.dump(parts, f)
     render_to_image(parts, 0.0).save(output_dir / "pose_000.png")

@@ -51,3 +51,19 @@ claim that wheel topology and assembly remain the bottleneck.
 
 Use the PointNet anchor predictor in qualitative figures as the learned
 assembly module. The fixed template can be shown as a baseline in the viewer.
+
+## LayoutNet Full Layout Prediction
+
+LayoutNet predicts the fixed five-part car layout: body bbox, four wheel bboxes,
+and four wheel joint anchors. It is trained only on the clean train split and
+selected by validation loss.
+
+| method | bbox center L2 | wheel center L2 | bbox size MAE | pivot L2 | bbox IoU | wheel IoU |
+|---|---:|---:|---:|---:|---:|---:|
+| train-mean layout | 0.07998 | 0.08228 | 0.01997 | 0.08241 | 0.66336 | 0.61045 |
+| canonical layout | 0.09139 | 0.09324 | 0.02362 | 0.09474 | 0.64720 | 0.59538 |
+| LayoutNet | 0.01795 | 0.01748 | 0.00501 | 0.01751 | 0.92631 | 0.91594 |
+
+Use `checkpoints/layout_net/condition_latent/best.pt` with
+`experiments/sample_adaptive_object_multimodal_diffusion.py --layout_checkpoint`
+to generate `structure.json` without borrowing a held-out source bbox.

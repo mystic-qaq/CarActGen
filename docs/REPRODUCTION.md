@@ -71,6 +71,7 @@ threads, and about 247GiB RAM:
 | clean function-aware VAE continuation, 160 epochs | 8 | about 1 h |
 | latent extraction with train-only statistics | 1 | about 2 min |
 | clean PartLocal diffusion with monitored stopping | 4 | about 1 h 40 min |
+| LayoutNet supervised layout predictor | 1 | under 15 min |
 | test-set sampling and geometry summary | 4 | about 30 min |
 
 The default monitor polls every `POLL_SEC=1200` seconds and stops training when
@@ -79,6 +80,20 @@ smaller GPU setup, expect wall-clock time to scale roughly with the number and
 memory bandwidth of available GPUs.
 
 ## VAE SDF And Latent Evaluation
+
+For clean VAE ablations, first generate split-aware configs from the same
+original train-only VAE initializer:
+
+```bash
+python experiments/paper_prepare_clean_vae_ablations.py \
+  --output_root "$CARACTGEN_OUTPUT_ROOT/vae_ablations_clean" \
+  --base_dataset "$CARACTGEN_DATA_ROOT" \
+  --split_path "$CARACTGEN_SPLIT_PATH" \
+  --original_trainonly_vae "$CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT"
+```
+
+Each generated config trains on `train`, selects checkpoints by `val_loss` on
+`val`, and leaves `test` for final reporting.
 
 ```bash
 python experiments/paper_vae_sdf_latent_eval.py \
@@ -105,7 +120,24 @@ The geometry evaluator compares each generated part mesh with the matching
 held-out source part after per-mesh normalization. It reports Chamfer L1 and
 F-score at 1 percent and 2 percent thresholds.
 
-## Learned Wheel-Anchor Assembly
+## Learned Layout And Wheel-Anchor Assembly
+
+For the full fixed-schema layout module, train LayoutNet after the clean latent
+dataset has been extracted:
+
+```bash
+python experiments/paper_train_layout_net.py \
+  --condition_root "$CARACTGEN_OUTPUT_ROOT/caractgen_clean_partlocal/datasets/2.1_clean_trainonly_vae_latent_sketch_dinov2" \
+  --info_root "$CARACTGEN_DATA_ROOT/1_preprocessed_info" \
+  --output_dir "$CARACTGEN_OUTPUT_ROOT/caractgen_layout_net"
+```
+
+The released LayoutNet checkpoint is
+`checkpoints/layout_net/condition_latent/best.pt`. On the clean held-out test
+split it improves pivot L2 from `0.08241` for the train-mean layout baseline to
+`0.01751`, and wheel IoU from `0.61045` to `0.91594`.
+
+For the wheel-anchor-only ablation:
 
 ```bash
 bash experiments/paper_run_wheel_anchor_predictors.sh
@@ -133,6 +165,7 @@ python experiments/sample_adaptive_object_multimodal_diffusion.py \
   --shape_id car_drivaer_305 \
   --condition_mode text_image \
   --image_embedding_dir "$CARACTGEN_DATA_ROOT/6_encoded_drivaer_sketch_image_dinov2" \
+  --layout_checkpoint "$CARACTGEN_LAYOUT_CKPT" \
   --guidance_scale 1.2
 
 SAMPLE_DIR=$(find "$CARACTGEN_OUTPUT_ROOT/samples" -maxdepth 1 -type d | sort | tail -1)

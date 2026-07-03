@@ -21,6 +21,9 @@ are:
   split-aware PartLocal multimodal diffusion.
 - `experiments/paper_run_clean_partlocal_pipeline.sh`: end-to-end clean
   training, latent extraction, monitored stopping, and held-out test evaluation.
+- `experiments/paper_train_layout_net.py`: clean supervised LayoutNet training
+  for predicting body/wheel boxes and wheel joints from generated part latents
+  and multimodal conditions.
 - `experiments/paper_train_wheel_anchor_predictor.py`: learned wheel-anchor
   assembly predictors for replacing fixed template assembly.
 - `experiments/sample_adaptive_object_multimodal_diffusion.py`,
@@ -40,7 +43,7 @@ train-only path documented below.
 - Original ArtFormer SDF, diffusion, transformer, evaluation, and utility code.
 - CarActGen function-aware VAE and PartLocal diffusion code.
 - Clean train/validation/test scripts for the paper experiments.
-- Learned wheel-anchor predictors and released small predictor checkpoints.
+- Learned LayoutNet and wheel-anchor predictors with released small checkpoints.
 - A reusable single-sample Three.js viewer and the paper qualitative comparison
   viewer template.
 - Documentation for data, checkpoints, training, evaluation, and visualization.
@@ -76,6 +79,7 @@ Checkpoint variables are needed for evaluator scripts:
 export CARACTGEN_ORIGINAL_VAE_CKPT=/path/to/original_train_only_vae.ckpt
 export CARACTGEN_FUNCTION_VAE_CKPT=/path/to/function_aware_train_only_vae.ckpt
 export CARACTGEN_PARTLOCAL_DIFFUSION_CKPT=/path/to/partlocal_diffusion_trainonly.ckpt
+export CARACTGEN_LAYOUT_CKPT=$PWD/checkpoints/layout_net/condition_latent/best.pt
 
 # Aliases used by the clean training pipeline:
 export CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT=$CARACTGEN_ORIGINAL_VAE_CKPT
@@ -105,6 +109,14 @@ For the learned assembly ablation:
 bash experiments/paper_run_wheel_anchor_predictors.sh
 ```
 
+For the full fixed-schema layout predictor:
+
+```bash
+python experiments/paper_train_layout_net.py \
+  --condition_root "$CARACTGEN_OUTPUT_ROOT/caractgen_clean_partlocal/datasets/2.1_clean_trainonly_vae_latent_sketch_dinov2" \
+  --info_root "$CARACTGEN_DATA_ROOT/1_preprocessed_info"
+```
+
 To generate one qualitative sample and open the lightweight interactive viewer:
 
 ```bash
@@ -116,6 +128,7 @@ python experiments/sample_adaptive_object_multimodal_diffusion.py \
   --shape_id car_drivaer_305 \
   --condition_mode text_image \
   --image_embedding_dir "$CARACTGEN_DATA_ROOT/6_encoded_drivaer_sketch_image_dinov2" \
+  --layout_checkpoint "$CARACTGEN_LAYOUT_CKPT" \
   --guidance_scale 1.2
 
 SAMPLE_DIR=$(find "$CARACTGEN_OUTPUT_ROOT/samples" -maxdepth 1 -type d | sort | tail -1)

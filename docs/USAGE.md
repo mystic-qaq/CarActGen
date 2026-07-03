@@ -29,6 +29,7 @@ export CARACTGEN_SPLIT_PATH=$PWD/data/caractgen_metadata/splits/object_sketch_di
 export CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT=/path/to/original_train_only_vae.ckpt
 export CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT=/path/to/function_aware_train_only_vae.ckpt
 export CARACTGEN_PARTLOCAL_DIFFUSION_CKPT=/path/to/partlocal_diffusion_trainonly.ckpt
+export CARACTGEN_LAYOUT_CKPT=$PWD/checkpoints/layout_net/condition_latent/best.pt
 
 # Aliases used by metric scripts:
 export CARACTGEN_ORIGINAL_VAE_CKPT=$CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT
@@ -80,6 +81,21 @@ configured patience window.
 
 ## 4. Train Learned Assembly
 
+Train the fixed-schema LayoutNet, which predicts body/wheel boxes and four
+wheel joint anchors from clean VAE part latents plus text/image conditions:
+
+```bash
+python experiments/paper_train_layout_net.py \
+  --condition_root "$CARACTGEN_OUTPUT_ROOT/caractgen_clean_partlocal/datasets/2.1_clean_trainonly_vae_latent_sketch_dinov2" \
+  --info_root "$CARACTGEN_DATA_ROOT/1_preprocessed_info" \
+  --output_dir "$CARACTGEN_OUTPUT_ROOT/caractgen_layout_net"
+```
+
+The released checkpoint is already available at
+`checkpoints/layout_net/condition_latent/best.pt`.
+
+For the lighter wheel-anchor-only ablation:
+
 ```bash
 bash experiments/paper_run_wheel_anchor_predictors.sh
 ```
@@ -93,6 +109,25 @@ This trains and evaluates:
 Use `pointnet_anchor` for the learned assembly qualitative figures.
 
 ## 5. Evaluate Reported Metrics
+
+To regenerate clean VAE ablation configs from the same original train-only VAE
+initializer:
+
+```bash
+python experiments/paper_prepare_clean_vae_ablations.py \
+  --output_root "$CARACTGEN_OUTPUT_ROOT/vae_ablations_clean" \
+  --base_dataset "$CARACTGEN_DATA_ROOT" \
+  --split_path "$CARACTGEN_SPLIT_PATH" \
+  --original_trainonly_vae "$CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT"
+```
+
+Then train any generated ablation config with:
+
+```bash
+python experiments/train_function_aware_sdf.py \
+  -c "$CARACTGEN_OUTPUT_ROOT/vae_ablations_clean/configs/no_decoder_film.yaml" \
+  --devices 1
+```
 
 VAE reconstruction and latent metrics:
 
@@ -139,6 +174,7 @@ python experiments/sample_adaptive_object_multimodal_diffusion.py \
   --info_root "$CARACTGEN_DATA_ROOT/1_preprocessed_info" \
   --mesh_root "$CARACTGEN_DATA_ROOT/1_preprocessed_mesh" \
   --output_root "$CARACTGEN_OUTPUT_ROOT/samples" \
+  --layout_checkpoint "$CARACTGEN_LAYOUT_CKPT" \
   --guidance_scale 1.2 \
   --sdf_resolution 128
 ```
@@ -155,7 +191,8 @@ Valid `--condition_mode` values are `unconditional`, `text`, `image`, and
 
 ```text
 generated_part_mesh/   generated part PLY files
-structure.json         assembly boxes and joint anchors
+structure.json         LayoutNet boxes and joint anchors when enabled
+layout_prediction.json raw LayoutNet prediction metadata when enabled
 processed_nodes.pkl    ArtFormer-style structure object
 pose_000.png           quick rendered preview
 viewer.html            interactive browser viewer
