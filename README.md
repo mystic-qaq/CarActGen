@@ -6,6 +6,17 @@ for the paper: held-out object splits, train-only latent statistics,
 function-aware SDF VAE training, PartLocal multimodal diffusion, and learned
 LayoutNet assembly.
 
+## Qualitative Examples
+
+CarActGen generates five separated car parts and assembles them with LayoutNet
+into a fixed four-wheel topology. The examples below are generated from the
+released clean PartLocal checkpoint and LayoutNet assembly.
+
+| Text-conditioned generation | Sketch-conditioned generation |
+|---|---|
+| Prompt: [`A long vehicle with four large wheels`](resource/text.txt) | Input sketch: [`novel_drivaer_style_sketch.png`](resource/novel_drivaer_style_sketch.png) |
+| <img src="resource/Text.gif" alt="Text-conditioned CarActGen generation" width="420"> | <img src="resource/sketch.gif" alt="Sketch-conditioned CarActGen generation" width="420"> |
+
 ## Our Contributions
 
 This repository contains a substantial amount of original ArtFormer code because
