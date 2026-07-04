@@ -20,5 +20,7 @@ test set is used only for final evaluation.
 
 ## Rebuilding Geometry
 
-The mesh and SDF files are regenerated from DrivAerML STL meshes. See
-`data/README.md` for commands and expected directory layout.
+The mesh, SDF, latent, and sketch-feature files are not committed here. Download
+the full derived `ArtFormer_datasets` package from the PKU Disk folder listed in
+`data/README.md`, or regenerate the files from DrivAerML STL meshes using the
+commands there.

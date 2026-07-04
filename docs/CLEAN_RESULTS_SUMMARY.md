@@ -17,53 +17,47 @@ VAE while making the conditioned plane representation much more consistent.
 
 All variants below are trained on the clean train split, selected by validation
 loss on the clean validation split, and evaluated by the same held-out test
-evaluator. Do not compare each variant's training `val_loss` directly, because
-some ablations remove terms from the optimized objective.
+evaluator. Do not read this as a raw reconstruction leaderboard. The clean
+evidence supports a narrower conclusion: the function-aware VAE is a better
+latent-to-plane interface for downstream diffusion, while raw body-dominated SDF
+MAE can be worse than simpler variants.
 
-| system | surface MAE | uniform MAE | uniform sign | plane L1 | latent std | abs(z)>1 | abs(z)>2 |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| full function-aware | 0.01318 | 0.26022 | 0.895 | 0.01587 | 0.285 | 0.0146 | 0.0007 |
-| original VAE | 0.01230 | 0.25896 | 0.902 | 0.77487 | 0.275 | 0.0155 | 0.0011 |
-| no adaptive sampling | 0.01228 | 0.25890 | 0.903 | 0.02067 | 0.315 | 0.0214 | 0.0022 |
-| no decoder FiLM | 0.01236 | 0.25949 | 0.902 | 0.00998 | 0.304 | 0.0196 | 0.0016 |
-| no eikonal | 0.01237 | 0.25951 | 0.900 | 0.01244 | 0.305 | 0.0191 | 0.0012 |
-| no FiLM conditioning | 0.01240 | 0.25942 | 0.901 | 0.01028 | 0.302 | 0.0190 | 0.0012 |
-| no function loss weight | 0.01226 | 0.25934 | 0.902 | 0.01177 | 0.280 | 0.0145 | 0.0005 |
-| no plane recon | 0.01278 | 0.26001 | 0.896 | 0.32179 | 0.283 | 0.0156 | 0.0007 |
+PB is the part-balanced surface MAE over the five parts. SW is the
+source-surface-area-weighted surface MAE; the body has mean weight `0.8482` on
+the test split.
 
-Interpretation: SDF reconstruction is close across variants, so this ablation
-should be discussed as a representation and functional-consistency study rather
-than a pure reconstruction win. Removing plane reconstruction strongly damages
-the conditioned plane representation, and removing adaptive sampling increases
-latent outliers while also worsening plane consistency.
+| system | PB surf. MAE | SW surf. MAE | plane L1 | latent std | abs(z)>1 | abs(z)>2 |
+|---|---:|---:|---:|---:|---:|---:|
+| original VAE | 0.01230 | 0.01075 | 0.77487 | 0.275 | 0.0155 | 0.0011 |
+| full function-aware | 0.01318 | 0.01468 | 0.01587 | 0.285 | 0.0146 | 0.0007 |
+| no adaptive sampling | 0.01228 | 0.01066 | 0.02067 | 0.315 | 0.0214 | 0.0022 |
+| no plane recon | 0.01278 | 0.01296 | 0.32179 | 0.283 | 0.0156 | 0.0007 |
+
+Interpretation: removing plane reconstruction strongly damages the conditioned
+plane representation. Removing adaptive sampling increases latent outliers. The
+other toggles were mixed in the clean benchmark and are best treated as
+stabilizers rather than independent ablation wins.
 
 ## Diffusion Generated-vs-Source Geometry
 
 Strict articulation validity was zero for both clean pipelines, so it should not
-be the main table. The fair replacement is generated-vs-source geometry.
+be the only table. The fair replacement is generated-vs-source geometry with
+body/wheel separation and both part-balanced (PB) and source-surface-area-
+weighted (SW) aggregation.
 
-| method | condition | CFG | group | Chamfer L1 | F@1% | F@2% |
-|---|---|---:|---|---:|---:|---:|
-| Original ArtFormer | zero | 0.0 | all | 0.0610 | 0.057 | 0.293 |
-| Original ArtFormer | class mean | 0.0 | all | 0.0609 | 0.057 | 0.295 |
-| PartLocal | text | 1.2 | all | 0.0611 | 0.064 | 0.305 |
-| PartLocal | image | 1.2 | all | 0.0603 | 0.072 | 0.319 |
-| PartLocal | text+image | 1.0 | all | 0.0601 | 0.072 | 0.322 |
-| PartLocal | text+image | 1.2 | all | 0.0602 | 0.072 | 0.321 |
-
-Body-only comparison:
-
-| method | condition | CFG | Chamfer L1 | F@1% | F@2% |
-|---|---|---:|---:|---:|---:|
-| Original ArtFormer | zero | 0.0 | 0.0358 | 0.151 | 0.642 |
-| Original ArtFormer | class mean | 0.0 | 0.0355 | 0.152 | 0.649 |
-| PartLocal | text | 1.2 | 0.0321 | 0.194 | 0.741 |
-| PartLocal | image | 1.2 | 0.0298 | 0.230 | 0.800 |
-| PartLocal | text+image | 1.0 | 0.0297 | 0.232 | 0.802 |
-| PartLocal | text+image | 1.2 | 0.0297 | 0.230 | 0.801 |
+| method | condition | PB Chamfer | SW Chamfer | SW F@2% | body Chamfer | body F@2% | wheel Chamfer | wheel F@2% |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| Original ArtFormer | zero | 0.0610 | 0.0406 | 0.576 | 0.0358 | 0.642 | 0.0674 | 0.206 |
+| Original ArtFormer | class mean | 0.0609 | 0.0403 | 0.581 | 0.0355 | 0.649 | 0.0673 | 0.206 |
+| PartLocal | text, cfg 1.2 | 0.0611 | 0.0376 | 0.659 | 0.0321 | 0.741 | 0.0684 | 0.196 |
+| PartLocal | image, cfg 1.2 | 0.0603 | 0.0356 | 0.708 | 0.0298 | 0.800 | 0.0679 | 0.199 |
+| PartLocal | text+image, cfg 1.0 | 0.0601 | 0.0355 | 0.711 | 0.0297 | 0.802 | 0.0677 | 0.202 |
+| PartLocal | text+image, cfg 1.2 | 0.0602 | 0.0355 | 0.710 | 0.0297 | 0.801 | 0.0678 | 0.201 |
 
 Wheel-only results remain close across methods, which supports the paper's
-claim that wheel topology and assembly remain the bottleneck.
+claim that wheel topology remains the bottleneck. The SW aggregate reflects that
+the body contributes about 84.82 percent of held-out source surface area, so the
+body improvement is visible in the visual-quality aggregate.
 
 ## Learned Wheel Anchors
 

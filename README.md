@@ -57,6 +57,26 @@ Small metadata files plus LayoutNet and anchor-only checkpoints are included und
 [`data/caractgen_metadata`](data/caractgen_metadata) and
 [`checkpoints`](checkpoints).
 
+## Released Data And Large Checkpoints
+
+The full derived dataset and the four large paper checkpoints are distributed
+through PKU Disk:
+
+```text
+https://disk.pku.edu.cn/anyshare/zh-cn/dir/6DAC6AE607984BBD9DE8AC53993D75FD
+```
+
+Download and extract the dataset so that `CARACTGEN_DATA_ROOT` points to the
+`ArtFormer_datasets` directory. Download the large checkpoints into
+`checkpoints/large/` or another local directory, then set the checkpoint
+environment variables shown below.
+
+The PKU Disk package contains the main clean checkpoints needed for the paper
+pipeline: original VAE, original diffusion, function-aware VAE, and PartLocal
+diffusion. VAE ablation checkpoints are not included in the uploaded package;
+the ablation diagnostics can be reproduced by rerunning the ablation configs
+described in [`docs/USAGE.md`](docs/USAGE.md).
+
 ## Setup
 
 ```bash
@@ -79,9 +99,10 @@ export CARACTGEN_SPLIT_PATH=$PWD/data/caractgen_metadata/splits/object_sketch_di
 Checkpoint variables are needed for evaluator scripts:
 
 ```bash
-export CARACTGEN_ORIGINAL_VAE_CKPT=/path/to/original_train_only_vae.ckpt
-export CARACTGEN_FUNCTION_VAE_CKPT=/path/to/function_aware_train_only_vae.ckpt
-export CARACTGEN_PARTLOCAL_DIFFUSION_CKPT=/path/to/partlocal_diffusion_trainonly.ckpt
+export CARACTGEN_ORIGINAL_VAE_CKPT=$PWD/checkpoints/large/original_vae_trainonly_sdf_epoch0119_val0.00168.ckpt
+export CARACTGEN_ORIGINAL_DIFFUSION_CKPT=$PWD/checkpoints/large/original_diffusion_trainonly_epoch0419_val0.00795.ckpt
+export CARACTGEN_FUNCTION_VAE_CKPT=$PWD/checkpoints/large/function_aware_vae_trainonly_epoch0139_val0.00176.ckpt
+export CARACTGEN_PARTLOCAL_DIFFUSION_CKPT=$PWD/checkpoints/large/partlocal_diffusion_trainonly_epoch0599_val0.37401.ckpt
 export CARACTGEN_LAYOUT_CKPT=$PWD/checkpoints/layout_net/condition_latent/best.pt
 
 # Aliases used by the clean training pipeline:
@@ -172,6 +193,10 @@ On our 8x RTX 3090 server, the clean PartLocal pipeline with an existing clean
 function-aware VAE initializer took about 3 hours from VAE continuation to
 test-set evaluation. A from-scratch full reproduction, including the original
 baseline VAE and diffusion, should be budgeted as an overnight run.
+
+For a checkpoint-based reproduction using the released PKU Disk files, no
+training is required for qualitative sampling, LayoutNet assembly, or the main
+held-out geometry evaluators.
 
 ## Repository Layout
 

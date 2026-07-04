@@ -6,10 +6,29 @@ scripts do not depend on a local workstation layout.
 
 ## Required Paths
 
+Download the full derived dataset and the four large main checkpoints from the
+PKU Disk release folder:
+
+```text
+https://disk.pku.edu.cn/anyshare/zh-cn/dir/6DAC6AE607984BBD9DE8AC53993D75FD
+```
+
+The VAE ablation checkpoints are not part of the uploaded package. They are
+only needed if you want to rerun the diagnostic ablation table; the main
+checkpoint-based sampling, LayoutNet viewer, and geometry metrics use the four
+large checkpoints listed in `checkpoints/README.md`.
+
 ```bash
 export CARACTGEN_DATA_ROOT=/path/to/ArtFormer_datasets
 export CARACTGEN_OUTPUT_ROOT=/path/to/caractgen_outputs
 export CARACTGEN_SPLIT_PATH=$PWD/data/caractgen_metadata/splits/object_sketch_dinov2_partlocal_seed123456798.json
+export CARACTGEN_ORIGINAL_VAE_CKPT=$PWD/checkpoints/large/original_vae_trainonly_sdf_epoch0119_val0.00168.ckpt
+export CARACTGEN_ORIGINAL_DIFFUSION_CKPT=$PWD/checkpoints/large/original_diffusion_trainonly_epoch0419_val0.00795.ckpt
+export CARACTGEN_FUNCTION_VAE_CKPT=$PWD/checkpoints/large/function_aware_vae_trainonly_epoch0139_val0.00176.ckpt
+export CARACTGEN_PARTLOCAL_DIFFUSION_CKPT=$PWD/checkpoints/large/partlocal_diffusion_trainonly_epoch0599_val0.37401.ckpt
+export CARACTGEN_LAYOUT_CKPT=$PWD/checkpoints/layout_net/condition_latent/best.pt
+export CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT=$CARACTGEN_ORIGINAL_VAE_CKPT
+export CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT=$CARACTGEN_FUNCTION_VAE_CKPT
 ```
 
 The dataset root is expected to contain:
@@ -27,12 +46,12 @@ test list is used only for final evaluation.
 
 ## Function-Aware VAE And PartLocal Diffusion
 
-Set one clean train-only initializer for the function-aware VAE:
+Set one clean train-only initializer for the function-aware VAE. If you use the
+released checkpoint paths above, these variables are already set:
 
 ```bash
-export CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT=/path/to/original_train_only_vae.ckpt
-# Optional, used if available:
-export CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT=/path/to/function_aware_train_only_vae.ckpt
+export CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT=$CARACTGEN_ORIGINAL_VAE_CKPT
+export CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT=$CARACTGEN_FUNCTION_VAE_CKPT
 ```
 
 Then run the monitored clean pipeline:
@@ -111,8 +130,8 @@ python experiments/paper_vae_ablation_sdf_latent_eval.py \
 
 ```bash
 python experiments/paper_vae_sdf_latent_eval.py \
-  --original_ckpt /path/to/original_train_only_vae.ckpt \
-  --function_ckpt /path/to/function_aware_train_only_vae.ckpt \
+  --original_ckpt "$CARACTGEN_ORIGINAL_VAE_CKPT" \
+  --function_ckpt "$CARACTGEN_FUNCTION_VAE_CKPT" \
   --split_path "$CARACTGEN_SPLIT_PATH" \
   --eval_sdf_dataset "$CARACTGEN_DATA_ROOT/2_gensdf_dataset_adaptive" \
   --info_root "$CARACTGEN_DATA_ROOT/1_preprocessed_info" \
@@ -133,6 +152,18 @@ python experiments/paper_diffusion_geometry_eval.py \
 The geometry evaluator compares each generated part mesh with the matching
 held-out source part after per-mesh normalization. It reports Chamfer L1 and
 F-score at 1 percent and 2 percent thresholds.
+
+To reproduce the source-surface-area-weighted aggregate used in the paper, run:
+
+```bash
+python experiments/paper_surface_weighted_summary.py \
+  --part_metrics_csv "$CARACTGEN_OUTPUT_ROOT/diffusion_geometry/diffusion_geometry_part_metrics.csv" \
+  --info_root "$CARACTGEN_DATA_ROOT/1_preprocessed_info" \
+  --mesh_root "$CARACTGEN_DATA_ROOT/1_preprocessed_mesh" \
+  --output_dir "$CARACTGEN_OUTPUT_ROOT/diffusion_geometry" \
+  --group_cols family entry \
+  --metric_names chamfer_l1 chamfer_l2 fscore_1pct fscore_2pct s2g_p95 g2s_p95
+```
 
 ## Learned Layout And Wheel-Anchor Assembly
 

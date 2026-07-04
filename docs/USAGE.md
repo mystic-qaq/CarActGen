@@ -17,8 +17,15 @@ python utils/z_to_mesh/utils/libsimplify/setup.py build_ext --inplace
 
 ## 2. Paths
 
-Download or prepare the dataset following [`data/README.md`](../data/README.md).
-Place large model checkpoints following
+Download the full derived dataset and the four large main checkpoints from the
+PKU Disk release folder:
+
+```text
+https://disk.pku.edu.cn/anyshare/zh-cn/dir/6DAC6AE607984BBD9DE8AC53993D75FD
+```
+
+Dataset details are in [`data/README.md`](../data/README.md). Checkpoint names,
+checksums, and placement instructions are in
 [`checkpoints/README.md`](../checkpoints/README.md). Then set:
 
 ```bash
@@ -26,9 +33,10 @@ export CARACTGEN_DATA_ROOT=/path/to/ArtFormer_datasets
 export CARACTGEN_OUTPUT_ROOT=/path/to/caractgen_outputs
 export CARACTGEN_SPLIT_PATH=$PWD/data/caractgen_metadata/splits/object_sketch_dinov2_partlocal_seed123456798.json
 
-export CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT=/path/to/original_train_only_vae.ckpt
-export CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT=/path/to/function_aware_train_only_vae.ckpt
-export CARACTGEN_PARTLOCAL_DIFFUSION_CKPT=/path/to/partlocal_diffusion_trainonly.ckpt
+export CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT=$PWD/checkpoints/large/original_vae_trainonly_sdf_epoch0119_val0.00168.ckpt
+export CARACTGEN_ORIGINAL_DIFFUSION_CKPT=$PWD/checkpoints/large/original_diffusion_trainonly_epoch0419_val0.00795.ckpt
+export CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT=$PWD/checkpoints/large/function_aware_vae_trainonly_epoch0139_val0.00176.ckpt
+export CARACTGEN_PARTLOCAL_DIFFUSION_CKPT=$PWD/checkpoints/large/partlocal_diffusion_trainonly_epoch0599_val0.37401.ckpt
 export CARACTGEN_LAYOUT_CKPT=$PWD/checkpoints/layout_net/condition_latent/best.pt
 
 # Aliases used by metric scripts:
@@ -111,6 +119,11 @@ mode is LayoutNet because it predicts both part boxes and wheel anchors.
 
 ## 5. Evaluate Reported Metrics
 
+The released PKU Disk package does not include VAE ablation checkpoints. The
+main paper pipeline and qualitative viewer do not need them. Run this section
+only if you want to regenerate the VAE diagnostic ablations from the clean
+split.
+
 To regenerate clean VAE ablation configs from the same original train-only VAE
 initializer:
 
@@ -164,6 +177,33 @@ python experiments/paper_diffusion_geometry_eval.py \
   --info_root "$CARACTGEN_DATA_ROOT/1_preprocessed_info" \
   --mesh_root "$CARACTGEN_DATA_ROOT/1_preprocessed_mesh" \
   --output_dir "$CARACTGEN_OUTPUT_ROOT/diffusion_geometry"
+```
+
+For the source-surface-area-weighted aggregate reported in the paper, run the
+geometry evaluator first and then aggregate the per-part CSV with source mesh
+areas:
+
+```bash
+python experiments/paper_surface_weighted_summary.py \
+  --part_metrics_csv "$CARACTGEN_OUTPUT_ROOT/diffusion_geometry/diffusion_geometry_part_metrics.csv" \
+  --info_root "$CARACTGEN_DATA_ROOT/1_preprocessed_info" \
+  --mesh_root "$CARACTGEN_DATA_ROOT/1_preprocessed_mesh" \
+  --output_dir "$CARACTGEN_OUTPUT_ROOT/diffusion_geometry" \
+  --group_cols family entry \
+  --metric_names chamfer_l1 chamfer_l2 fscore_1pct fscore_2pct s2g_p95 g2s_p95
+```
+
+For VAE diagnostic tables, the same script can aggregate SDF/latent per-part
+metrics:
+
+```bash
+python experiments/paper_surface_weighted_summary.py \
+  --part_metrics_csv "$CARACTGEN_OUTPUT_ROOT/vae_ablations_clean/eval_sdf_latent/vae_ablation_sdf_latent_part_metrics.csv" \
+  --info_root "$CARACTGEN_DATA_ROOT/1_preprocessed_info" \
+  --mesh_root "$CARACTGEN_DATA_ROOT/1_preprocessed_mesh" \
+  --output_dir "$CARACTGEN_OUTPUT_ROOT/vae_ablations_clean/eval_sdf_latent" \
+  --group_cols system \
+  --metric_names surface_mae uniform_mae surface_sign_acc uniform_sign_acc plane_l1 latent_std latent_abs_gt1 latent_abs_gt2 latent_l2
 ```
 
 ## 6. Generate A Qualitative Sample
