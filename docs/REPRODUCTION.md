@@ -163,7 +163,8 @@ This trains the fixed baseline and two learned predictors:
 - `bbox_mlp`: predicts anchors from body bounding-box features.
 - `pointnet_anchor`: predicts anchors from body point cloud plus box features.
 
-Use `pointnet_anchor` as the learned assembly module in qualitative results.
+Use these anchor-only predictors as ablations. The final qualitative assembly
+module is LayoutNet, which predicts boxes and anchors jointly.
 
 ## Qualitative Viewer
 
@@ -193,5 +194,15 @@ The paper comparison viewer is generated outside git from lightweight JSON
 metadata and generated meshes. The reusable template and small metadata assets
 are included under [`viewer/paper_qualitative`](../viewer/paper_qualitative). It
 shows anonymized test labels, the text condition, real held-out sketch images,
-generated parts, template assembly, and learned PointNet anchor assembly.
+generated parts, anchor-only ablations, and LayoutNet full-layout assembly.
+For saved PartLocal samples, create the per-sample LayoutNet metadata with:
+
+```bash
+python experiments/paper_apply_layout_net_to_samples.py \
+  --samples_root /path/to/paper_experiments/fair_function_aware_partlocal/eval_clean_partlocal/samples \
+  --condition_root "$CARACTGEN_OUTPUT_ROOT/caractgen_clean_partlocal/datasets/2.1_clean_trainonly_vae_latent_sketch_dinov2" \
+  --layout_checkpoint "$CARACTGEN_LAYOUT_CKPT" \
+  --overwrite
+```
+
 Generated mesh outputs should not be committed to the release branch.

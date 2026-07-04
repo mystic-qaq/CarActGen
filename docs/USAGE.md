@@ -106,7 +106,8 @@ This trains and evaluates:
 - `bbox_mlp`: learned anchors from body bounding-box features.
 - `pointnet_anchor`: learned anchors from body point cloud and box features.
 
-Use `pointnet_anchor` for the learned assembly qualitative figures.
+Use these anchor-only predictors as ablations. The main qualitative assembly
+mode is LayoutNet because it predicts both part boxes and wheel anchors.
 
 ## 5. Evaluate Reported Metrics
 
@@ -211,6 +212,17 @@ pose_000.png           quick rendered preview
 viewer.html            interactive browser viewer
 ```
 
+For existing saved PartLocal samples, apply LayoutNet without re-decoding
+meshes:
+
+```bash
+python experiments/paper_apply_layout_net_to_samples.py \
+  --samples_root /path/to/paper_experiments/fair_function_aware_partlocal/eval_clean_partlocal/samples \
+  --condition_root "$CARACTGEN_OUTPUT_ROOT/caractgen_clean_partlocal/datasets/2.1_clean_trainonly_vae_latent_sketch_dinov2" \
+  --layout_checkpoint "$CARACTGEN_LAYOUT_CKPT" \
+  --overwrite
+```
+
 ## 7. Open The Viewer
 
 The single-sample viewer uses browser `fetch`, so serve the sample directory
@@ -265,7 +277,11 @@ http://localhost:8031/paper_qualitative/viewer.html
 ```
 
 This viewer shows real held-out sketch conditions from `sketches/`, not the
-rendered generated preview.
+rendered generated preview. The object labels are anonymized as `Test1`,
+`Test2`, ... so they are not confused with dataset names. It supports
+source/template/BBox-MLP/PointNet anchor-only modes and LayoutNet full-layout
+mode. To enable LayoutNet, make sure the PartLocal sample directories contain
+`layout_prediction.json` files from the command above.
 
 ## 9. Expected Runtime
 

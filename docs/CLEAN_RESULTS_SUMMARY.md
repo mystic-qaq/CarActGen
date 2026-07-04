@@ -73,8 +73,9 @@ claim that wheel topology and assembly remain the bottleneck.
 | BBox MLP | 0.06394 | about 0.071 | about 0.021 | about 0.021 |
 | PointNet anchor | 0.03114 | 0.02850 | 0.00504 | 0.00533 |
 
-Use the PointNet anchor predictor in qualitative figures as the learned
-assembly module. The fixed template can be shown as a baseline in the viewer.
+Use this table as an anchor-only diagnostic ablation. PointNet shows that body
+surface evidence helps joint placement, while the final assembly module is
+LayoutNet because it predicts the full fixed-schema layout.
 
 ## LayoutNet Full Layout Prediction
 

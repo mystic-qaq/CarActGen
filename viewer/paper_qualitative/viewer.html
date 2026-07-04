@@ -376,6 +376,11 @@
         id: "pointnet_anchor",
         label: "Learned PointNet anchors",
         shortLabel: "learned PointNet"
+      },
+      {
+        id: "layout_net",
+        label: "LayoutNet full layout",
+        shortLabel: "LayoutNet layout"
       }
     ];
 
@@ -433,6 +438,8 @@
     const boxes = [];
     let anchorData = null;
     let anchorLoadError = null;
+    let currentLayoutPrediction = null;
+    let currentLayoutError = null;
     let testMetadataPromise = Promise.resolve(null);
     const testMetadata = new Map(SHAPES.map((shape, index) => [
       shape,
@@ -468,7 +475,7 @@
 
     shapeSelect.value = SHAPES[0];
     methodSelect.value = "partlocal_text_image_cfg10";
-    assemblySelect.value = "pointnet_anchor";
+    assemblySelect.value = "layout_net";
 
     function currentMethod() {
       return METHODS.find((method) => method.id === methodSelect.value) || METHODS[0];
@@ -503,6 +510,10 @@
 
     function meshUrl(method, shape, partName) {
       return `${method.base}/${shape}/generated_part_mesh/${PART_FILES[partName]}`;
+    }
+
+    function layoutPredictionUrl(method, shape) {
+      return `${method.base}/${shape}/layout_prediction.json`;
     }
 
     function loadJson(url) {
@@ -552,6 +563,10 @@
     }
 
     function anchorForWheel(structure, shape, partName, assemblyId) {
+      if (assemblyId === "layout_net") {
+        return currentLayoutPrediction?.layout?.[partName]?.joint_data_origin ||
+          sourceAnchorFromStructure(structure, partName);
+      }
       const record = anchorRecordFor(shape);
       const wheelIndex = WHEEL_ORDER.indexOf(partName);
       if (record && wheelIndex >= 0 && record[assemblyId]) {
@@ -561,6 +576,17 @@
     }
 
     function selectedPartForAssembly(structure, shape, part) {
+      if (assemblySelect.value === "layout_net") {
+        const layoutPart = currentLayoutPrediction?.layout?.[part.name];
+        if (layoutPart) {
+          return {
+            ...part,
+            bbx: layoutPart.bbx,
+            joint_data_origin: layoutPart.joint_data_origin,
+            joint_data_direction: layoutPart.joint_data_direction
+          };
+        }
+      }
       if (!part.name.startsWith("wheel_")) return part;
       return {
         ...part,
@@ -672,19 +698,27 @@
         if (assembly.id !== "source_annotated") {
           addAnchorMarker(source, 0x6b7280, 0.024, 0.50);
         }
-        addAnchorMarker(selected, assembly.id === "pointnet_anchor" ? 0x111827 : 0x176f7a, 0.042, 0.96);
+        const color = assembly.id === "pointnet_anchor" ? 0x111827 :
+          assembly.id === "layout_net" ? 0x6d3fb5 : 0x176f7a;
+        addAnchorMarker(selected, color, 0.042, 0.96);
       }
 
       const err = record?.mean_l2_to_source?.[assembly.id];
       assemblyMeta.textContent = assembly.shortLabel;
-      anchorErrorMeta.textContent = Number.isFinite(err) ? `${err.toFixed(5)} mean L2 to source` : "not available";
+      if (assembly.id === "layout_net") {
+        anchorErrorMeta.textContent = currentLayoutPrediction ?
+          `epoch ${currentLayoutPrediction.layout_epoch ?? "?"}` :
+          "layout_prediction.json unavailable";
+      } else {
+        anchorErrorMeta.textContent = Number.isFinite(err) ? `${err.toFixed(5)} mean L2 to source` : "not available";
+      }
     }
 
-    function computeFrame(structure) {
+    function computeFrame(structure, shape) {
       const allMin = new THREE.Vector3(Infinity, Infinity, Infinity);
       const allMax = new THREE.Vector3(-Infinity, -Infinity, -Infinity);
       for (const part of structure.parts) {
-        const box = targetBox(part);
+        const box = targetBox(selectedPartForAssembly(structure, shape, part));
         allMin.min(box.min);
         allMax.max(box.max);
       }
@@ -725,9 +759,22 @@
       checkpointMeta.textContent = method.checkpoint;
       assemblyMeta.textContent = assembly.shortLabel;
       anchorErrorMeta.textContent = "loading";
+      currentLayoutPrediction = null;
+      currentLayoutError = null;
 
       try {
-        const [structure] = await Promise.all([loadJson(structureUrl(shape)), anchorDataPromise, testMetadataPromise]);
+        const layoutPromise = loadJson(layoutPredictionUrl(method, shape))
+          .catch((error) => {
+            currentLayoutError = error;
+            return null;
+          });
+        const [structure, layoutPrediction] = await Promise.all([
+          loadJson(structureUrl(shape)),
+          layoutPromise,
+          anchorDataPromise,
+          testMetadataPromise
+        ]);
+        currentLayoutPrediction = layoutPrediction;
         const loadedTestItem = currentTestItem(shape);
         shapeMeta.textContent = loadedTestItem.label;
         textPrompt.textContent = loadedTestItem.primary_text || "Text condition unavailable";
@@ -735,7 +782,7 @@
           anchorErrorMeta.textContent = "anchor file unavailable";
         }
         if (token !== loadToken) return;
-        computeFrame(structure);
+        computeFrame(structure, shape);
 
         for (const part of structure.parts) {
           if (!PART_FILES[part.name]) continue;
@@ -777,7 +824,8 @@
 
         addAnchorMarkers(structure, shape);
         resetCamera();
-        setStatus(`${loadedTestItem.label} loaded (${assembly.shortLabel})`);
+        const layoutNote = assembly.id === "layout_net" && currentLayoutError ? ", LayoutNet file missing" : "";
+        setStatus(`${loadedTestItem.label} loaded (${assembly.shortLabel}${layoutNote})`, Boolean(layoutNote));
       } catch (error) {
         console.error(error);
         setStatus(error.message || String(error), true);

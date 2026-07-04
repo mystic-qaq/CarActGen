@@ -4,7 +4,7 @@ CarActGen is a function-aware car part generation project built on top of
 ArtFormer. The release branch keeps the clean train-only experimental path used
 for the paper: held-out object splits, train-only latent statistics,
 function-aware SDF VAE training, PartLocal multimodal diffusion, and learned
-wheel-anchor assembly.
+LayoutNet assembly.
 
 ## Our Contributions
 
@@ -22,10 +22,12 @@ are:
 - `experiments/paper_run_clean_partlocal_pipeline.sh`: end-to-end clean
   training, latent extraction, monitored stopping, and held-out test evaluation.
 - `experiments/paper_train_layout_net.py`: clean supervised LayoutNet training
-  for predicting body/wheel boxes and wheel joints from generated part latents
-  and multimodal conditions.
-- `experiments/paper_train_wheel_anchor_predictor.py`: learned wheel-anchor
-  assembly predictors for replacing fixed template assembly.
+  for predicting body/wheel boxes and wheel joints from part latents and
+  multimodal conditions.
+- `experiments/paper_apply_layout_net_to_samples.py`: postprocess saved
+  PartLocal samples with LayoutNet layout predictions for the paper viewer.
+- `experiments/paper_train_wheel_anchor_predictor.py`: anchor-only assembly
+  ablations for separating joint placement from full layout prediction.
 - `experiments/sample_adaptive_object_multimodal_diffusion.py`,
   `viewer/sample_viewer.html`, and `viewer/paper_qualitative`: single-sample
   and paper-comparison qualitative viewers.
@@ -43,16 +45,17 @@ train-only path documented below.
 - Original ArtFormer SDF, diffusion, transformer, evaluation, and utility code.
 - CarActGen function-aware VAE and PartLocal diffusion code.
 - Clean train/validation/test scripts for the paper experiments.
-- Learned LayoutNet and wheel-anchor predictors with released small checkpoints.
+- Learned LayoutNet and anchor-only ablation predictors with released small
+  checkpoints.
 - A reusable single-sample Three.js viewer and the paper qualitative comparison
   viewer template.
 - Documentation for data, checkpoints, training, evaluation, and visualization.
 
 Generated datasets, checkpoints, wandb runs, rendered meshes, paper scratch
 outputs, and local PDFs are intentionally excluded.
-Small metadata files and wheel-anchor checkpoints are included under
+Small metadata files plus LayoutNet and anchor-only checkpoints are included under
 [`data/caractgen_metadata`](data/caractgen_metadata) and
-[`checkpoints/wheel_anchor`](checkpoints/wheel_anchor).
+[`checkpoints`](checkpoints).
 
 ## Setup
 
@@ -103,18 +106,18 @@ For the main clean train-only PartLocal rerun:
 bash experiments/paper_run_clean_partlocal_pipeline.sh
 ```
 
-For the learned assembly ablation:
-
-```bash
-bash experiments/paper_run_wheel_anchor_predictors.sh
-```
-
-For the full fixed-schema layout predictor:
+For the learned LayoutNet assembly module:
 
 ```bash
 python experiments/paper_train_layout_net.py \
   --condition_root "$CARACTGEN_OUTPUT_ROOT/caractgen_clean_partlocal/datasets/2.1_clean_trainonly_vae_latent_sketch_dinov2" \
   --info_root "$CARACTGEN_DATA_ROOT/1_preprocessed_info"
+```
+
+For the anchor-only ablation:
+
+```bash
+bash experiments/paper_run_wheel_anchor_predictors.sh
 ```
 
 To generate one qualitative sample and open the lightweight interactive viewer:
@@ -141,7 +144,9 @@ forward the port with `ssh -L 8000:localhost:8000 user@server`.
 The paper comparison viewer, matching the local 8031-style layout, is under
 [`viewer/paper_qualitative`](viewer/paper_qualitative). It expects the reproduced
 paper sample directories as siblings and uses real held-out sketch images in its
-side panel.
+side panel. For LayoutNet assembly mode, run
+`experiments/paper_apply_layout_net_to_samples.py` once on the reproduced
+PartLocal sample directories so that each sample contains `layout_prediction.json`.
 
 For held-out VAE and diffusion geometry metrics:
 
