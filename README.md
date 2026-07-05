@@ -1,5 +1,71 @@
 # CarActGen
 
+## Author's Note
+
+Before getting into the technical details, I want to briefly record how this
+course project took shape. As an engineering student taking *Frontier of
+Geometric Computation*, I wanted to connect what I learned in the course with
+my own field. At the milestone stage, the goal was much more ambitious: a
+high-fidelity, interactable car generator conditioned on text or images, with
+rotating wheels, movable doors, trunk and hood, and CFD-aware patch
+partitioning for downstream volume meshing. Related work such as
+PhysX-Anything made the direction look approachable at first.
+
+After my final exams ended on June 26, I started from the dataset. A careful
+search quickly made the main constraint clear. Datasets such as ShapeNet and
+Objaverse-XL contain many cars, but most of them are too toy-like for my
+intended CFD-oriented setting; for example, their underbodies are often overly
+smooth, which may be tolerable for drag estimation but can be very problematic
+for lift. The high-fidelity options were mainly DrivAerML and DrivAerNet++,
+and the latter was not directly available under its access protocol. I
+therefore built this project on DrivAerML, filtering its 500 STL cars down to
+484 valid shapes, repartitioning the wheels, body, and CFD-relevant regions
+such as the A-pillars. I also tried to annotate door regions with a VLM, but
+manual inspection showed that some door cuts were too unreliable, so I removed
+that direction from the final project.
+
+My first modeling plan was to fine-tune or post-train a 3D foundation model,
+such as TRELLIS or Hunyuan3D. After thinking through the task requirements, I
+realized that the available data and compute were not enough for that route.
+I then moved to a smaller and more controllable reference system, ArtFormer.
+Even that was not a simple fine-tuning problem: ArtFormer focuses on text-to-3D
+articulated objects such as cabinets, does not provide usable VAE or diffusion
+checkpoints for this setting, and also notes that adding categories or too many
+parts can hurt performance. I therefore reused its code framework and trained
+on the new car dataset from scratch. The early results made the real bottleneck
+clear: wheel quality was acceptable, body quality was weak, and the topology
+transformer was not very useful because every training car had the same
+five-part topology. The harder problem was predicting the correct box sizes,
+positions, and joints.
+
+This led to the main design decisions in CarActGen. Car parts should not be
+treated uniformly; the model should be function-aware, because a usable car
+asset depends on preserving the different roles of the body and wheels. The
+diffusion model should also be adapted to the new VAE and should accept
+multiple conditioning modalities. Finally, instead of using a transformer to
+predict a topology that is already fixed, I replaced that stage with LayoutNet,
+which predicts boxes and wheel joints for end-to-end assembly. Implementing
+this required more metadata, text conditions, sketch inputs, box annotations,
+joint annotations, and a substantial amount of code restructuring.
+
+The final project is still limited, but it reached a meaningful result. It
+improves the visual quality of the car body, supports DrivAer-style sketch
+conditioning, and provides an end-to-end assembly path for five-part cars.
+The remaining weaknesses are also clear. The dataset is small and mostly
+contains NotchBack-style parametric variants, so text and sketch control are
+still weaker than I would like, and the sketch branch depends heavily on
+DrivAerML-style inputs. I see many of these limitations as data limitations
+rather than fundamental limits of the framework. A stronger follow-up would
+scale both the dataset diversity and the model capacity, ideally with access
+to richer high-fidelity vehicle datasets.
+
+I am grateful to Professor Pengshuai Wang for a semester of excellent lectures
+that made these 3D ideas accessible to a student from another department. I am
+also grateful to GPT-5.5 for helping me build a project that would have been
+very hard for me to finish alone in such a short time. Finally, I am glad that
+I chose to finish the project seriously rather than taking the easy way out.
+This is a small project, but it is one I am genuinely proud of.
+
 CarActGen is a function-aware car part generation project built on top of
 ArtFormer. The release branch keeps the clean train-only experimental path used
 for the paper: held-out object splits, train-only latent statistics,
