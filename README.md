@@ -50,14 +50,17 @@ joint annotations, and a substantial amount of code restructuring.
 
 The final project is still limited, but it reached a meaningful result. It
 improves the visual quality of the car body, supports DrivAer-style sketch
-conditioning, and provides an end-to-end assembly path for five-part cars.
-The remaining weaknesses are also clear. The dataset is small and mostly
-contains NotchBack-style parametric variants, so text and sketch control are
-still weaker than I would like, and the sketch branch depends heavily on
-DrivAerML-style inputs. I see many of these limitations as data limitations
-rather than fundamental limits of the framework. A stronger follow-up would
-scale both the dataset diversity and the model capacity, ideally with access
-to richer high-fidelity vehicle datasets.
+conditioning, and provides an end-to-end assembly path for five-part cars. 
+We can also set rotating wheels explicitly in downstream task like CFD, 
+which is not properly solved by Hunyuan3D and TRELLIS. The remaining weaknesses 
+are also clear. The dataset is small and mostly contains NotchBack-style parametric 
+variants, so text and sketch control are still weaker than I would like, and the 
+sketch branch depends heavily on DrivAerML-style inputs. Accurate patch
+generation based on CFD semantics has not been achived yet.
+I see many of these 
+limitations as data limitations rather than fundamental limits of the framework. 
+A stronger follow-up would scale both the dataset diversity and the model 
+capacity, ideally with access to richer high-fidelity vehicle datasets.
 
 I am grateful to Professor Pengshuai Wang for a semester of excellent lectures
 that made these 3D ideas accessible to a student from another department. I am
