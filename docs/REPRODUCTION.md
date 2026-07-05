@@ -46,12 +46,27 @@ test list is used only for final evaluation.
 
 ## Function-Aware VAE And PartLocal Diffusion
 
-Set one clean train-only initializer for the function-aware VAE. If you use the
-released checkpoint paths above, these variables are already set:
+The reported function-aware VAE is trained as a continuation, not from scratch:
+the original train-only SDF VAE is first trained for 320 epochs, then the
+function-aware VAE is initialized from that checkpoint with `initialize_from_sdf`
+and trained for 160 continuation epochs with validation checkpoint selection.
+The `epoch0139` number in the released function-aware VAE filename is therefore
+an epoch number inside the continuation run, not a from-scratch epoch count.
+
+For checkpoint-based evaluation, set both aliases to the released checkpoints:
 
 ```bash
 export CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT=$CARACTGEN_ORIGINAL_VAE_CKPT
 export CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT=$CARACTGEN_FUNCTION_VAE_CKPT
+```
+
+For a training rerun that follows the paper lineage from the 320-epoch original
+VAE initializer, leave `CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT` unset and keep
+`CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT` set:
+
+```bash
+unset CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT
+export CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT=$CARACTGEN_ORIGINAL_VAE_CKPT
 ```
 
 Then run the monitored clean pipeline:

@@ -128,12 +128,17 @@ To regenerate clean VAE ablation configs from the same original train-only VAE
 initializer:
 
 ```bash
+unset CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT
 python experiments/paper_prepare_clean_vae_ablations.py \
   --output_root "$CARACTGEN_OUTPUT_ROOT/vae_ablations_clean" \
   --base_dataset "$CARACTGEN_DATA_ROOT" \
   --split_path "$CARACTGEN_SPLIT_PATH" \
   --original_trainonly_vae "$CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT"
 ```
+
+This follows the paper lineage: original train-only SDF VAE trained for 320
+epochs, then function-aware VAE variants warm-started from that checkpoint and
+trained on the clean train split.
 
 Then train any generated ablation config with:
 

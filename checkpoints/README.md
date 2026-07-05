@@ -39,7 +39,7 @@ generation, LayoutNet assembly, and the main held-out geometry evaluation.
 |---|---|---:|---|
 | `original_vae_trainonly_sdf_epoch0119_val0.00168.ckpt` | clean Original ArtFormer VAE | 840901912 bytes | `1ecbf02598d82723cc4b1cb2015984de8df5fc0f023d9c0bed9d6d4cd8cf6b69` |
 | `original_diffusion_trainonly_epoch0419_val0.00795.ckpt` | clean Original ArtFormer diffusion | 1425878356 bytes | `acca130e6af843aec43f92e12a1a2c0d50920560a720337b801e1e51ed8e4f84` |
-| `function_aware_vae_trainonly_epoch0139_val0.00176.ckpt` | clean function-aware VAE | 844996728 bytes | `3cdd015e944715886e991d005a88e7de453b9cc34f54293d25387af298029b4b` |
+| `function_aware_vae_trainonly_epoch0139_val0.00176.ckpt` | clean function-aware VAE, warm-started from the 320-epoch original train-only VAE | 844996728 bytes | `3cdd015e944715886e991d005a88e7de453b9cc34f54293d25387af298029b4b` |
 | `partlocal_diffusion_trainonly_epoch0599_val0.37401.ckpt` | clean PartLocal diffusion | 985857000 bytes | `0a5fed276407d6df59484e1ced7d93b3b1cc53a388eabeda07b6425eb0f62840` |
 
 VAE ablation checkpoints are not included in the PKU Disk package. The ablation
@@ -69,3 +69,11 @@ export CARACTGEN_LAYOUT_CKPT=checkpoints/layout_net/condition_latent/best.pt
 export CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT=$CARACTGEN_ORIGINAL_VAE_CKPT
 export CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT=$CARACTGEN_FUNCTION_VAE_CKPT
 ```
+
+For training-lineage reproduction, the function-aware VAE should be initialized
+from `CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT`, which is the original train-only
+SDF VAE trained for 320 epochs. In that mode, leave
+`CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT` unset so the preparation script writes
+`initialize_from_sdf` into the generated clean VAE config. Set
+`CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT` only when reusing or further continuing
+an already trained clean function-aware VAE.

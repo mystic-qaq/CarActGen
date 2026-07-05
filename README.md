@@ -88,6 +88,12 @@ diffusion. VAE ablation checkpoints are not included in the uploaded package;
 the ablation diagnostics can be reproduced by rerunning the ablation configs
 described in [`docs/USAGE.md`](docs/USAGE.md).
 
+Training lineage note: the released function-aware VAE is not a from-scratch
+run. In the reported clean protocol, the original train-only SDF VAE is first
+trained on the train split for 320 epochs, and the function-aware VAE is then
+warm-started from that original VAE checkpoint with `initialize_from_sdf` and
+continued for 160 epochs with validation checkpoint selection.
+
 ## Setup
 
 ```bash
@@ -120,6 +126,14 @@ export CARACTGEN_LAYOUT_CKPT=$PWD/checkpoints/layout_net/condition_latent/best.p
 export CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT=$CARACTGEN_ORIGINAL_VAE_CKPT
 export CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT=$CARACTGEN_FUNCTION_VAE_CKPT
 ```
+
+`CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT` is the 320-epoch original VAE
+initializer used to reproduce the paper training lineage. The
+`CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT` alias points to an already trained
+function-aware VAE and is mainly useful for checkpoint-based evaluation or
+additional continuation. To rerun the paper function-aware VAE training from
+the original 320-epoch initializer, leave `CARACTGEN_TRAINONLY_FUNCTION_VAE_CKPT`
+unset and keep `CARACTGEN_ORIGINAL_TRAINONLY_VAE_CKPT` set.
 
 ## Main Reproduction Pipeline
 
